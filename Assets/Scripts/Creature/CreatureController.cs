@@ -1,6 +1,7 @@
+using CoreGameplay;
 using UnityEngine;
 
-namespace CoreGameplay
+namespace Creature
 {
 	public class CreatureController : MonoBehaviour
 	{
