@@ -5,7 +5,7 @@ namespace Creature
 {
 	public class CreatureController : MonoBehaviour
 	{
-		[SerializeField] private DragNDropEvents dragNDrop;
+		[SerializeField] private DragNDropEvents dragNDropEvents;
 
 		private void Start()
 		{
@@ -19,20 +19,20 @@ namespace Creature
 
 		private void Subscribe()
 		{
-			dragNDrop.MouseEntered += DragNDrop_MouseEntered;
-			dragNDrop.MouseExited += DragNDrop_MouseExited;
-			dragNDrop.MousePressed += DragNDrop_MousePressed;
-			dragNDrop.MouseDragUpdated += DragNDrop_MouseDragUpdated;
-			dragNDrop.MouseReleased += DragNDrop_MouseReleased;
+			dragNDropEvents.MouseEntered += DragNDrop_MouseEntered;
+			dragNDropEvents.MouseExited += DragNDrop_MouseExited;
+			dragNDropEvents.MousePressed += DragNDrop_MousePressed;
+			dragNDropEvents.MouseDragUpdated += DragNDrop_MouseDragUpdated;
+			dragNDropEvents.MouseReleased += DragNDrop_MouseReleased;
 		}
 
 		private void Unsubscribe()
 		{
-			dragNDrop.MouseEntered -= DragNDrop_MouseEntered;
-			dragNDrop.MouseExited -= DragNDrop_MouseExited;
-			dragNDrop.MousePressed -= DragNDrop_MousePressed;
-			dragNDrop.MouseDragUpdated -= DragNDrop_MouseDragUpdated;
-			dragNDrop.MouseReleased += DragNDrop_MouseReleased;
+			dragNDropEvents.MouseEntered -= DragNDrop_MouseEntered;
+			dragNDropEvents.MouseExited -= DragNDrop_MouseExited;
+			dragNDropEvents.MousePressed -= DragNDrop_MousePressed;
+			dragNDropEvents.MouseDragUpdated -= DragNDrop_MouseDragUpdated;
+			dragNDropEvents.MouseReleased += DragNDrop_MouseReleased;
 		}
 
 		private void DragNDrop_MousePressed()

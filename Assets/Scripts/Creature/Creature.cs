@@ -6,31 +6,31 @@ namespace Creature
 	{
 		[SerializeField] private CreatureConfig config;
 
+		private CreatureDamageReceiver damageReceiver;
 		private int _health;
 
 		public System.Action HealthChanged;
 		public System.Action Died;
 
+		public CreatureDamageReceiver DamageReceiver => damageReceiver;
 		public int HealthMax => config.HealthMax;
-
-		public int Health
-		{
-			get => _health;
-			set
-			{
-				_health = value;
-				HealthChanged?.Invoke();
-				if (_health <= 0)
-				{
-					Died?.Invoke();
-					Destroy(gameObject);
-				}
-			}
-		}
+		public int Health => _health;
 
 		private void Awake()
 		{
 			_health = config.HealthMax;
+			damageReceiver = new CreatureDamageReceiver(this, SetHealth);
+		}
+
+		private void SetHealth(int newValue)
+		{
+			_health = newValue;
+			HealthChanged?.Invoke();
+			if (_health <= 0)
+			{
+				Died?.Invoke();
+				Destroy(gameObject);
+			}
 		}
 	}
 }
