@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Creature
+namespace Creatures
 {
 	[CreateAssetMenu(fileName = "NewCreatureConfig", menuName = "Configs/Create creature config")]
 	public class CreatureConfig : ScriptableObject

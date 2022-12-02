@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Creature
+namespace Creatures
 {
 	public class CreatureCanvasController : MonoBehaviour
 	{

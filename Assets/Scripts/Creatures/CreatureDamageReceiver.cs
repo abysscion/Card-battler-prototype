@@ -1,21 +1,21 @@
 using System;
 
-namespace Creature
+namespace Creatures
 {
 	public class CreatureDamageReceiver
 	{
-		private Creature _target;
+		private Creature _host;
 		private Action<int> _setHealthMethod;
 
 		public CreatureDamageReceiver(Creature creature, Action<int> setHealthMethod)
 		{
 			_setHealthMethod = setHealthMethod;
-			_target = creature;
+			_host = creature;
 		}
 
 		public bool TryReceiveDamage(int value)
 		{
-			_setHealthMethod.Invoke(value);
+			_setHealthMethod.Invoke(_host.Health - value);
 			return true;
 		}
 	}

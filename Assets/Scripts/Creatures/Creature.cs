@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Creature
+namespace Creatures
 {
 	public class Creature : MonoBehaviour
 	{
@@ -24,7 +24,7 @@ namespace Creature
 
 		private void SetHealth(int newValue)
 		{
-			_health = newValue;
+			_health = Mathf.Clamp(newValue, 0, HealthMax);
 			HealthChanged?.Invoke();
 			if (_health <= 0)
 			{
