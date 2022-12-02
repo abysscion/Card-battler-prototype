@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8856131076670547295}
-  - component: {fileID: 7309219028166264429}
+  - component: {fileID: 3554022877003936186}
   m_Layer: 0
   m_Name: CardBase
   m_TagString: Untagged
@@ -34,7 +34,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7309219028166264429
+--- !u!114 &3554022877003936186
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,10 +43,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3491034505707301053}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46bfd8a98851b6e49b05014b10cfa9d3, type: 3}
+  m_Script: {fileID: 11500000, guid: ab64ce302ca0970409dfd19f34a88a78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dragNDropHelper: {fileID: 1946158436992895032}
+  config: {fileID: 11400000, guid: 373d6392de41e0240a4f62559a8877d1, type: 2}
 --- !u!1 &6158257855239086345
 GameObject:
   m_ObjectHideFlags: 0

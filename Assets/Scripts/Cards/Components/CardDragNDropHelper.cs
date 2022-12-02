@@ -25,7 +25,6 @@ namespace Cards
 				return;
 
 			DraggedOverCreature?.Invoke(receiver.Creature);
-			receiver.Creature.DamageReceiver.TryReceiveDamage(10);
 		}
 	}
 }
