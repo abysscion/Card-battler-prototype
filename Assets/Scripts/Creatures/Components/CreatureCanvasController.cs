@@ -13,19 +13,21 @@ namespace Creatures
 
 		private void Start()
 		{
-			creature.HealthChanged += UpdateView;
+			creature.Stats.AnyStatChanged += OnStatChanged;
 			UpdateView();
 		}
 
 		private void OnDestroy()
 		{
-			creature.HealthChanged -= UpdateView;
+			creature.Stats.AnyStatChanged -= OnStatChanged;
 		}
+
+		private void OnStatChanged(CreatureStatType _, float __) => UpdateView();
 
 		private void UpdateView()
 		{
-			healthText.text = $"{creature.Health}/{creature.HealthMax}";
-			healthFillImage.fillAmount = (float) creature.Health / creature.HealthMax;
+			healthText.text = $"{Mathf.CeilToInt(creature.Health)}/{Mathf.CeilToInt(creature.HealthMax)}";
+			healthFillImage.fillAmount = creature.Health / creature.HealthMax;
 		}
 	}
 }

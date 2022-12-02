@@ -2,8 +2,9 @@
 
 namespace Cards
 {
-	public class Card : MonoBehaviour
+	public class CardBase : MonoBehaviour
 	{
 		[SerializeField] private CardDragNDropHelper dragNDropHelper;
+		[SerializeField] private CardConfig config;
 	}
 }
