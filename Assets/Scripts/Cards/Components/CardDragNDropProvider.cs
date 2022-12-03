@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Cards
 {
-	public class CardDragNDropHelper : DragNDropHelperBase
+	public class CardDragNDropProvider : DragNDropProviderBase
 	{
 		[SerializeField] private LayerMask receiversMask;
 

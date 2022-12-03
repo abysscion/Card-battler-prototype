@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab64ce302ca0970409dfd19f34a88a78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dragNDropHelper: {fileID: 1946158436992895032}
+  dragNDropProvider: {fileID: 1946158436992895032}
   config: {fileID: 11400000, guid: 373d6392de41e0240a4f62559a8877d1, type: 2}
 --- !u!1 &6158257855239086345
 GameObject:

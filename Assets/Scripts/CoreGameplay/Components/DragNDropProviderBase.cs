@@ -3,12 +3,12 @@ using UnityEngine;
 
 namespace CoreGameplay
 {
-	public class DragNDropHelperBase : DragNDropEventsThrower
+	public class DragNDropProviderBase : DragNDropEventsThrower
 	{
 		[SerializeField] private Renderer viewObject;
 		[SerializeField] private Material ghostMaterial;
 
-		/// <summary> T1 is a pointer on screen position. </summary>
+		/// <summary> T0 is a pointer on screen position. </summary>
 		public event Action<Vector3> DragSuccesseded;
 
 		private Transform _dndGhost;

@@ -6,7 +6,7 @@ namespace Cards
 	{
 		private void Start()
 		{
-			dragNDropHelper.DraggedOverCreature += OnDragOverCreature;
+			dragNDropProvider.DraggedOverCreature += OnDragOverCreature;
 		}
 
 		private void OnDragOverCreature(Creature creature)
