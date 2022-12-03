@@ -11,12 +11,9 @@ namespace Cards
 
 		private void OnDragOverCreature(Creature creature)
 		{
-			var allEffects = config.GetStatModifiers();
+			var allEffects = config.GetCardEffects();
 			foreach (var effect in allEffects)
-			{
-				if (effect.Type == CreatureStatType.Health && effect.Duration == 0)
-					creature.DamageReceiver.TryReceiveDamage(-effect.Value);
-			}
+				creature.EffectsController.TryApplyEffect(effect);
 		}
 	}
 }

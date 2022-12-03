@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Creatures;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Cards
@@ -9,27 +7,15 @@ namespace Cards
 	public class CardConfig : ScriptableObject
 	{
 		[SerializeField] private CardType type;
-		[SerializeField] private List<CardStatModifier> modifiers = new List<CardStatModifier>();
+		[SerializeField] private List<CardEffect> effects = new List<CardEffect>();
 
 		public CardType Type => type;
 
-		public CardStatModifier[] GetStatModifiers()
+		public CardEffect[] GetCardEffects()
 		{
-			var result = new CardStatModifier[modifiers.Count];
-			modifiers.CopyTo(result);
+			var result = new CardEffect[effects.Count];
+			effects.CopyTo(result);
 			return result;
-		}
-
-		[Serializable]
-		public class CardStatModifier
-		{
-			[SerializeField] private CreatureStatType type;
-			[SerializeField] private float value;
-			[SerializeField] private int duration;
-
-			public CreatureStatType Type => type;
-			public float Value => value;
-			public int Duration => duration;
 		}
 	}
 }

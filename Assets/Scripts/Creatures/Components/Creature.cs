@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Creatures
 {
@@ -6,27 +7,24 @@ namespace Creatures
 	{
 		[SerializeField] private CreatureConfig config;
 
-		private CreatureDamageReceiver _damageReceiver;
+		private CreatureEffectsController _effectsController;
 		private CreatureStatsContainer _stats;
 
-		public System.Action Died;
-		private System.Action<CreatureStatType, float> ChangeStat;
+		public event Action Died;
 
-		public CreatureDamageReceiver DamageReceiver => _damageReceiver;
+		public CreatureEffectsController EffectsController => _effectsController;
 		public CreatureStatsContainer Stats => _stats;
-		public float HealthMax => _stats.GetStatValue(CreatureStatType.HealthMax);
-		public float Health => _stats.GetStatValue(CreatureStatType.Health);
 
 		private void Awake()
 		{
-			_stats = new CreatureStatsContainer(config, out ChangeStat);
-			_damageReceiver = new CreatureDamageReceiver(this, SetHealth);
+			_stats = new CreatureStatsContainer(config, out var ChangeStatMethod);
+			_effectsController = new CreatureEffectsController(this, ChangeStatMethod);
+			Stats.AddSubscriberToValueChanged(CreatureStatType.Health, OnHealthChanged);
 		}
 
-		private void SetHealth(float newValue)
+		private void OnHealthChanged(float value)
 		{
-			ChangeStat(CreatureStatType.Health, Mathf.Clamp(newValue, 0f, HealthMax));
-			if (Health <= 0)
+			if (value <= 0)
 			{
 				Died?.Invoke();
 				Destroy(gameObject);

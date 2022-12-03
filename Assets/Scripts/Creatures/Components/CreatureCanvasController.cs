@@ -26,8 +26,11 @@ namespace Creatures
 
 		private void UpdateView()
 		{
-			healthText.text = $"{Mathf.CeilToInt(creature.Health)}/{Mathf.CeilToInt(creature.HealthMax)}";
-			healthFillImage.fillAmount = creature.Health / creature.HealthMax;
+			var maxHealthValue = creature.Stats.GetValue(CreatureStatType.MaxHealth);
+			var healthValue = creature.Stats.GetValue(CreatureStatType.Health);
+
+			healthText.text = $"{Mathf.CeilToInt(healthValue)}/{Mathf.CeilToInt(maxHealthValue)}";
+			healthFillImage.fillAmount = healthValue / maxHealthValue;
 		}
 	}
 }

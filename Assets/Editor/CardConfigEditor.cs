@@ -7,7 +7,7 @@ using UnityEngine;
 [CustomEditor(typeof(CardConfig))]
 public class CardConfigEditor : Editor
 {
-	private SerializedProperty _modifiersListProperty;
+	private SerializedProperty _effectsListProperty;
 	private SerializedProperty _cardTypeProperty;
 	private CardConfig _script;
 	private readonly GUILayoutOption _effectDurationWidth = GUILayout.Width(75);
@@ -15,15 +15,11 @@ public class CardConfigEditor : Editor
 	private readonly GUILayoutOption _labelsWidth = GUILayout.Width(75);
 	private readonly GUILayoutOption _xButtonWidth = GUILayout.Width(60), _xButtonHeight = GUILayout.Height(60);
 
-	private void OnEnable()
-	{
-		_modifiersListProperty = serializedObject.FindProperty("modifiers");
-		_cardTypeProperty = serializedObject.FindProperty("type");
-	}
-
 	public override void OnInspectorGUI()
 	{
 		_script = target as CardConfig;
+		_effectsListProperty = serializedObject.FindProperty("effects");
+		_cardTypeProperty = serializedObject.FindProperty("type");
 
 		DrawSpecificScriptLayout();
 
@@ -67,9 +63,9 @@ public class CardConfigEditor : Editor
 	private void DrawListElements(bool drawDurationField)
 	{
 		EditorGUILayout.BeginVertical(EditorStyles.helpBox); // level: 0
-		for (var i = 0; i < _modifiersListProperty.arraySize; i++)
+		for (var i = 0; i < _effectsListProperty.arraySize; i++)
 		{
-			var property = _modifiersListProperty.GetArrayElementAtIndex(i);
+			var property = _effectsListProperty.GetArrayElementAtIndex(i);
 
 			EditorGUILayout.BeginHorizontal(EditorStyles.helpBox); // level: 1
 			EditorGUILayout.BeginVertical(); // level: 2
@@ -95,7 +91,7 @@ public class CardConfigEditor : Editor
 			}
 			EditorGUILayout.EndVertical(); // level: 2
 			if (GUILayout.Button("X", _xButtonWidth, _xButtonHeight))
-				_modifiersListProperty.DeleteArrayElementAtIndex(i);
+				_effectsListProperty.DeleteArrayElementAtIndex(i);
 			EditorGUILayout.EndHorizontal(); // level: 1
 		}
 		EditorGUILayout.EndVertical(); // level: 0
@@ -104,11 +100,11 @@ public class CardConfigEditor : Editor
 	private void DrawNavigationButtons()
 	{
 		if (GUILayout.Button("Add new effect"))
-			_modifiersListProperty.InsertArrayElementAtIndex(0);
+			_effectsListProperty.InsertArrayElementAtIndex(0);
 		if (GUILayout.Button("Remove all effects"))
 		{
 			if (EditorUtility.DisplayDialog("Effects removing", "Remove all effects?", "Sure!", "Nope."))
-				_modifiersListProperty.ClearArray();
+				_effectsListProperty.ClearArray();
 		}
 	}
 

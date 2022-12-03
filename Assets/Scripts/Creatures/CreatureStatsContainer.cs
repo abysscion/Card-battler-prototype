@@ -6,11 +6,13 @@ namespace Creatures
 	[System.Serializable]
 	public class CreatureStatsContainer
 	{
-		public event Action<CreatureStatType, float> AnyStatChanged;
-
 		private Dictionary<CreatureStatType, CreatureStat> _statTypeToValueDic;
 
-		public CreatureStatsContainer(CreatureConfig config, out Action<CreatureStatType, float> statChanger)
+		public delegate void ChangeStat(CreatureStatType type, float value);
+
+		public event Action<CreatureStatType, float> AnyStatChanged;
+
+		public CreatureStatsContainer(CreatureConfig config, out ChangeStat statChanger)
 		{
 			var allStats = Enum.GetValues(typeof(CreatureStatType));
 
@@ -29,12 +31,12 @@ namespace Creatures
 
 			//it's possible to autofill stats container through config
 			// if config will contain stats as a parsable container
-			_statTypeToValueDic[CreatureStatType.HealthMax].Value = config.HealthMax;
+			_statTypeToValueDic[CreatureStatType.MaxHealth].Value = config.HealthMax;
 			_statTypeToValueDic[CreatureStatType.Health].Value = config.HealthMax;
 			statChanger = SetStatValue;
 		}
 
-		public float GetStatValue(CreatureStatType type)
+		public float GetValue(CreatureStatType type)
 		{
 			return _statTypeToValueDic[type].Value;
 		}

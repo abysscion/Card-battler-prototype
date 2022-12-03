@@ -4,9 +4,9 @@
 	{
 		public CreatureStatType type;
 
-		public System.Action<float> ValueChanged;
-
 		private float _value;
+
+		public System.Action<float> ValueChanged;
 
 		public float Value
 		{

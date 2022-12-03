@@ -3,9 +3,9 @@
 	public enum CreatureStatType
 	{
 		Unknown,
-		HealthMax,
+		MaxHealth,
 		Health,
-		EnergyShieldMax,
+		MaxEnergyShield,
 		EnergyShield
 	}
 }
