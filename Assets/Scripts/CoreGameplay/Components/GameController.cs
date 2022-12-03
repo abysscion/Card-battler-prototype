@@ -1,4 +1,5 @@
 using System;
+using Creatures;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utilities.Components;
@@ -7,8 +8,11 @@ namespace CoreGameplay
 {
 	public class GameController : MonoSingleton<GameController>
 	{
-		public event Action TurnStarted;
-		public event Action TurnEnded;
+		[SerializeField] private CreaturesController playerCreatures;
+		[SerializeField] private CreaturesController aiCreatures;
+
+		public event Action<GameTeamType> TurnStarted;
+		public event Action<GameTeamType> TurnEnded;
 
 		public override void Initialize()
 		{

@@ -9,6 +9,7 @@ public class CardConfigEditor : Editor
 {
 	private SerializedProperty _effectsListProperty;
 	private SerializedProperty _cardTypeProperty;
+	private SerializedProperty _prefabProperty;
 	private CardConfig _script;
 	private readonly GUILayoutOption _effectDurationWidth = GUILayout.Width(75);
 	private readonly GUILayoutOption _valuesWidth = GUILayout.Width(150);
@@ -20,6 +21,7 @@ public class CardConfigEditor : Editor
 		_script = target as CardConfig;
 		_effectsListProperty = serializedObject.FindProperty("effects");
 		_cardTypeProperty = serializedObject.FindProperty("type");
+		_prefabProperty = serializedObject.FindProperty("prefab");
 
 		DrawSpecificScriptLayout();
 
@@ -31,12 +33,15 @@ public class CardConfigEditor : Editor
 	private void DrawSpecificScriptLayout()
 	{
 		EditorGUILayout.BeginHorizontal();
-		GUILayout.Label("Card type:", EditorStyles.whiteLargeLabel, GUILayout.ExpandWidth(false));
+		GUILayout.Label("Card type", EditorStyles.whiteLargeLabel, GUILayout.ExpandWidth(false));
 		var cardType = DrawCardTypeEnumPopup();
 		EditorGUILayout.EndHorizontal();
 
-		GUILayout.Space(10);
-		GUILayout.Label("Effects:", EditorStyles.boldLabel);
+		GUILayout.Space(5);
+		EditorGUILayout.ObjectField(_prefabProperty);
+
+		GUILayout.Space(5);
+		GUILayout.Label("Effects:");
 		switch (cardType)
 		{
 			case CardType.InstantEffect:

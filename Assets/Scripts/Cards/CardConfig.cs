@@ -7,9 +7,11 @@ namespace Cards
 	public class CardConfig : ScriptableObject
 	{
 		[SerializeField] private CardType type;
+		[SerializeField] private GameObject prefab;
 		[SerializeField] private List<CardEffect> effects = new List<CardEffect>();
 
 		public CardType Type => type;
+		public GameObject Prefab => prefab;
 
 		public CardEffect[] GetCardEffects()
 		{

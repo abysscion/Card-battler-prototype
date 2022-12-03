@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: CardConfig_Heal
   m_EditorClassIdentifier: 
   type: 1
+  prefab: {fileID: 1222627200467874661, guid: 2dd20bb3e821b0c4c9df4ac1f277cb19, type: 3}
   effects:
   - type: 2
     value: 1

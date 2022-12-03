@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Cards
 {
-	//[CreateAssetMenu(fileName = "NewCardConfigContainer", menuName = "Configs/Create card config container")]
+	[CreateAssetMenu(fileName = "NewCardConfigsContainer", menuName = "Configs/Create card configs container")]
 	public class CardConfigsContainer : ScriptableObject
 	{
 		[SerializeField] private List<CardConfig> cards = new List<CardConfig>();

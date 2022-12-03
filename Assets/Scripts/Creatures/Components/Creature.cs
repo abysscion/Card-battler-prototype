@@ -6,6 +6,7 @@ namespace Creatures
 	public class Creature : MonoBehaviour
 	{
 		[SerializeField] private CreatureConfig config;
+		[SerializeField] private Transform cardSpawnPoint;
 
 		private CreatureEffectsController _effectsController;
 		private CreatureStatsContainer _stats;
@@ -14,6 +15,7 @@ namespace Creatures
 
 		public CreatureEffectsController EffectsController => _effectsController;
 		public CreatureStatsContainer Stats => _stats;
+		public Transform CardSpawnPoint => cardSpawnPoint;
 
 		private void Awake()
 		{

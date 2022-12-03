@@ -21,7 +21,10 @@ namespace CoreGameplay
 			{
 				_dndGhost = new GameObject($"[DragNDrop] Ghost of {name}").transform;
 				var ghostRenderer = Instantiate(viewObject, _dndGhost);
+				var originalMaterialColor = viewObject.material.color;
+				originalMaterialColor.a = ghostMaterial.color.a;
 				ghostRenderer.material = ghostMaterial;
+				ghostRenderer.material.color = originalMaterialColor;
 			}
 
 			var pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
