@@ -6,19 +6,17 @@ namespace Cards
 	[CreateAssetMenu(fileName = "NewCardConfig", menuName = "Configs/Create card config")]
 	public class CardConfig : ScriptableObject
 	{
-		[SerializeField] private List<CardEffect> effects = new List<CardEffect>();
-		[SerializeField] private CardTargetType targetType;
+		[SerializeField] private List<CardEffectConfig> effectConfigs = new List<CardEffectConfig>();
 		[SerializeField] private Card prefab;
-		[SerializeField] private CardType type;
+		[SerializeField] private CardTargetType targetType;
 
 		public CardTargetType TargetType => targetType;
-		public CardType Type => type;
 		public Card Prefab => prefab;
 
-		public CardEffect[] GetCardEffects()
+		public CardEffectConfig[] GetCardEffectConfigs()
 		{
-			var result = new CardEffect[effects.Count];
-			effects.CopyTo(result);
+			var result = new CardEffectConfig[effectConfigs.Count];
+			effectConfigs.CopyTo(result);
 			return result;
 		}
 	}

@@ -4,7 +4,6 @@
 	{
 		MaxHealth,
 		Health,
-		MaxEnergyShield,
-		EnergyShield
+		Shield
 	}
 }

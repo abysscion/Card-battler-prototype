@@ -1,4 +1,5 @@
-﻿using Cards;
+﻿using System.Collections.Generic;
+using Cards;
 using CoreGameplay;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ namespace Creatures
 	public class CreatureDeck
 	{
 		private CardConfigsContainer _cardsConfigs;
+		private CardEffectFactory _cardEffectsFactory;
 		private Creature _creature;
 		private Card _spawnedCard;
 		private GameTeamType _team;
@@ -17,8 +19,9 @@ namespace Creatures
 
 		public CreatureDeck(Creature creature, CardConfigsContainer configsContainer, GameTeamType team)
 		{
-			_creature = creature;
+			_cardEffectsFactory = new CardEffectFactory();
 			_cardsConfigs = configsContainer;
+			_creature = creature;
 			_team = team;
 			GameController.Instance.TurnStarted += OnTurnStarted;
 			GameController.Instance.TurnEnded += OnTurnEnded;
@@ -51,35 +54,40 @@ namespace Creatures
 		private void OnDragOverCreature(Creature targetCreature)
 		{
 			var cardConfig = _spawnedCard.Config;
-			var effectsApplied = false;
-			switch (cardConfig.TargetType)
+			var cardDraggedOverCorrectCreature = cardConfig.TargetType switch
 			{
-				case CardTargetType.Self:
-					if (targetCreature == _creature)
-						effectsApplied = ApplyEffects(cardConfig.GetCardEffects(), targetCreature);
-					break;
-				case CardTargetType.Ally:
-					if (targetCreature.Team == _creature.Team)
-						effectsApplied = ApplyEffects(cardConfig.GetCardEffects(), targetCreature);
-					break;
-				case CardTargetType.Enemy:
-					if (targetCreature.Team != _creature.Team)
-						effectsApplied = ApplyEffects(cardConfig.GetCardEffects(), targetCreature);
-					break;
-			}
-
-			if (effectsApplied)
+				CardTargetType.Self => _creature == targetCreature,
+				CardTargetType.Ally => _creature.Team == targetCreature.Team,
+				CardTargetType.Enemy => targetCreature.Team != _creature.Team,
+				_ => throw new System.NotImplementedException()
+			};
+			if (cardDraggedOverCorrectCreature)
 			{
+				ApplyCardEffects(targetCreature, cardConfig.GetCardEffectConfigs());
 				Object.Destroy(_spawnedCard.gameObject);
 				CardUsed?.Invoke();
 			}
 		}
 
-		private bool ApplyEffects(CardEffect[] effects, Creature targetCreature)
+		private void ApplyCardEffects(Creature targetCreature, ICollection<CardEffectConfig> effectConfigs)
 		{
-			foreach (var effect in effects)
-				targetCreature.EffectsController.TryApplyEffect(effect);
-			return true;
+			foreach (var effectConfig in effectConfigs)
+			{
+				if (!_cardEffectsFactory.TryCreateEffectByConfig(effectConfig, out var effect))
+					continue;
+
+				switch (effectConfig.TargetType)
+				{
+					case CardEffectTargetType.Self:
+						_creature.EffectsController.TryApplyEffect(effect);
+						break;
+					case CardEffectTargetType.Other:
+						targetCreature.EffectsController.TryApplyEffect(effect);
+						break;
+					default:
+						throw new System.NotImplementedException();
+				}
+			}
 		}
 	}
 }

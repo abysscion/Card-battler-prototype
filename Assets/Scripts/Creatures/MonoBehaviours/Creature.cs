@@ -22,8 +22,8 @@ namespace Creatures
 
 		private void Awake()
 		{
-			_stats = new CreatureStatsContainer(config, out var ChangeStatMethod);
-			_effectsController = new CreatureEffectsController(this, ChangeStatMethod);
+			_stats = new CreatureStatsContainer(config);
+			_effectsController = new CreatureEffectsController(this);
 			Stats.AddSubscriberToValueChanged(CreatureStatType.Health, OnHealthChanged);
 		}
 

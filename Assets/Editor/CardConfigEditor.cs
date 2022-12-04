@@ -25,7 +25,9 @@ public class CardConfigEditor : Editor
 		_cardTypeProperty = serializedObject.FindProperty("type");
 		_prefabProperty = serializedObject.FindProperty("prefab");
 
-		DrawSpecificScriptLayout();
+		DrawDefaultInspector();
+
+		//DrawSpecificScriptLayout();
 
 		serializedObject.ApplyModifiedProperties();
 		if (GUI.changed)
@@ -34,31 +36,31 @@ public class CardConfigEditor : Editor
 
 	private void DrawSpecificScriptLayout()
 	{
-		EditorGUILayout.BeginHorizontal();
-		GUILayout.Label("Card type", EditorStyles.whiteLargeLabel, GUILayout.ExpandWidth(false));
-		var cardType = DrawCardTypeEnumPopup();
-		EditorGUILayout.EndHorizontal();
-		GUILayout.Space(10);
+		//EditorGUILayout.BeginHorizontal();
+		//GUILayout.Label("Card type", EditorStyles.whiteLargeLabel, GUILayout.ExpandWidth(false));
+		//var cardType = DrawCardTypeEnumPopup();
+		//EditorGUILayout.EndHorizontal();
+		//GUILayout.Space(10);
 
-		EditorGUILayout.ObjectField(_prefabProperty);
+		//EditorGUILayout.ObjectField(_prefabProperty);
 
-		EditorGUILayout.BeginHorizontal();
-		GUILayout.Label("Target type:", GUILayout.ExpandWidth(false));
-		DrawCardTargetTypeEnumPopup();
-		EditorGUILayout.EndHorizontal();
+		//EditorGUILayout.BeginHorizontal();
+		//GUILayout.Label("Target type:", GUILayout.ExpandWidth(false));
+		//DrawCardTargetTypeEnumPopup();
+		//EditorGUILayout.EndHorizontal();
 
-		GUILayout.Label("Effects:");
-		switch (cardType)
-		{
-			case CardType.InstantEffect:
-				DrawInstantEffectBlock(); break;
-			case CardType.TemporaryEffect:
-				DrawTemporaryEffectBlock(); break;
-			default:
-				break;
-		}
+		//GUILayout.Label("Effects:");
+		//switch (cardType)
+		//{
+		//	case CardType.InstantEffect:
+		//		DrawInstantEffectBlock(); break;
+		//	case CardType.TemporaryEffect:
+		//		DrawTemporaryEffectBlock(); break;
+		//	default:
+		//		break;
+		//}
 
-		DrawNavigationButtons();
+		//DrawNavigationButtons();
 	}
 
 	private void DrawInstantEffectBlock()
@@ -119,13 +121,13 @@ public class CardConfigEditor : Editor
 		}
 	}
 
-	private CardType DrawCardTypeEnumPopup()
-	{
-		var selectedTypeName = EditorGUILayout.EnumPopup((CardType)_cardTypeProperty.enumValueIndex, _valuesWidth).ToString();
-		var selectedTypeIndex = (int)Enum.Parse<CardType>(selectedTypeName);
-		_cardTypeProperty.enumValueIndex = selectedTypeIndex;
-		return (CardType)selectedTypeIndex;
-	}
+	//private CardType DrawCardTypeEnumPopup()
+	//{
+	//	var selectedTypeName = EditorGUILayout.EnumPopup((CardType)_cardTypeProperty.enumValueIndex, _valuesWidth).ToString();
+	//	var selectedTypeIndex = (int)Enum.Parse<CardType>(selectedTypeName);
+	//	_cardTypeProperty.enumValueIndex = selectedTypeIndex;
+	//	return (CardType)selectedTypeIndex;
+	//}
 
 	private void DrawCardTargetTypeEnumPopup()
 	{

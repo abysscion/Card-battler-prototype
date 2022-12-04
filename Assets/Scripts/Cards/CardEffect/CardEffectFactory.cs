@@ -1,0 +1,24 @@
+﻿namespace Cards
+{
+	public class CardEffectFactory
+	{
+		public bool TryCreateEffectByConfig(CardEffectConfig config, out CardEffect effect)
+		{
+			switch (config.EffectType)
+			{
+				case CardEffectType.StatChange:
+					effect = new CardEffectChangeCreatureStat(config);
+					return true;
+				case CardEffectType.Heal:
+					effect = new CardEffectHeal(config);
+					return true;
+				case CardEffectType.HealthDamage:
+					effect = new CardEffectDealHealthDamage(config);
+					return true;
+				default:
+					effect = null;
+					return false;
+			}
+		}
+	}
+}
