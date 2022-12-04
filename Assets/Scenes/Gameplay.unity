@@ -130,6 +130,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 567091739}
     m_Modifications:
+    - target: {fileID: 5143818840320473232, guid: 69dcaf99415e01e4084e60908a9f62fb, type: 3}
+      propertyPath: team
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5298020581498959767, guid: 69dcaf99415e01e4084e60908a9f62fb, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -243,12 +247,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8f82c61c2bc77c44be55b61452c39c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  team: 0
-  availableCards: {fileID: 0}
+  availableCards: {fileID: 11400000, guid: 5cbba93d7661a744882d1ae456767c9f, type: 2}
   creatures:
   - {fileID: 1256437624}
   - {fileID: 1413465187}
   - {fileID: 946919463}
+  team: 0
 --- !u!1 &333816074
 GameObject:
   m_ObjectHideFlags: 0
@@ -361,12 +365,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8f82c61c2bc77c44be55b61452c39c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  team: 1
-  availableCards: {fileID: 0}
+  availableCards: {fileID: 11400000, guid: 341a0067cad95124c8eface82fe7142a, type: 2}
   creatures:
   - {fileID: 1620344621}
   - {fileID: 180498681}
   - {fileID: 905229489}
+  team: 1
 --- !u!4 &567091739
 Transform:
   m_ObjectHideFlags: 0
@@ -486,6 +490,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 567091739}
     m_Modifications:
+    - target: {fileID: 5143818840320473232, guid: 69dcaf99415e01e4084e60908a9f62fb, type: 3}
+      propertyPath: team
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5298020581498959767, guid: 69dcaf99415e01e4084e60908a9f62fb, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -919,6 +927,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 567091739}
     m_Modifications:
+    - target: {fileID: 5143818840320473232, guid: 69dcaf99415e01e4084e60908a9f62fb, type: 3}
+      propertyPath: team
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5298020581498959767, guid: 69dcaf99415e01e4084e60908a9f62fb, type: 3}
       propertyPath: m_RootOrder
       value: 0

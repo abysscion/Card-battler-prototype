@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2881b6ffadc00b447b9147b9a9952e1b, type: 3}
   m_Name: CardConfig_HealthDamage
   m_EditorClassIdentifier: 
-  type: 1
-  prefab: {fileID: 1222627200467874661, guid: 15e42584aaf50324db8978c59af70229, type: 3}
   effects:
-  - type: 2
+  - type: 1
     value: -3
     duration: 0
+  targetType: 2
+  prefab: {fileID: 1285616541888473698, guid: 15e42584aaf50324db8978c59af70229, type: 3}
+  type: 0

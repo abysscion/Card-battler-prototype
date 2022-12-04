@@ -7,18 +7,20 @@ using UnityEngine;
 [CustomEditor(typeof(CardConfig))]
 public class CardConfigEditor : Editor
 {
+	private SerializedProperty _cardTargetTypeProperty;
 	private SerializedProperty _effectsListProperty;
 	private SerializedProperty _cardTypeProperty;
 	private SerializedProperty _prefabProperty;
 	private CardConfig _script;
 	private readonly GUILayoutOption _effectDurationWidth = GUILayout.Width(75);
 	private readonly GUILayoutOption _valuesWidth = GUILayout.Width(150);
-	private readonly GUILayoutOption _labelsWidth = GUILayout.Width(75);
+	private readonly GUILayoutOption _labelsWidth = GUILayout.Width(100);
 	private readonly GUILayoutOption _xButtonWidth = GUILayout.Width(60), _xButtonHeight = GUILayout.Height(60);
 
 	public override void OnInspectorGUI()
 	{
 		_script = target as CardConfig;
+		_cardTargetTypeProperty = serializedObject.FindProperty("targetType");
 		_effectsListProperty = serializedObject.FindProperty("effects");
 		_cardTypeProperty = serializedObject.FindProperty("type");
 		_prefabProperty = serializedObject.FindProperty("prefab");
@@ -36,11 +38,15 @@ public class CardConfigEditor : Editor
 		GUILayout.Label("Card type", EditorStyles.whiteLargeLabel, GUILayout.ExpandWidth(false));
 		var cardType = DrawCardTypeEnumPopup();
 		EditorGUILayout.EndHorizontal();
+		GUILayout.Space(10);
 
-		GUILayout.Space(5);
 		EditorGUILayout.ObjectField(_prefabProperty);
 
-		GUILayout.Space(5);
+		EditorGUILayout.BeginHorizontal();
+		GUILayout.Label("Target type:", GUILayout.ExpandWidth(false));
+		DrawCardTargetTypeEnumPopup();
+		EditorGUILayout.EndHorizontal();
+
 		GUILayout.Label("Effects:");
 		switch (cardType)
 		{
@@ -79,7 +85,7 @@ public class CardConfigEditor : Editor
 			var type = property.FindPropertyRelative("type");
 			var selectedTypeName = EditorGUILayout.EnumPopup((CreatureStatType)type.enumValueIndex, _valuesWidth).ToString();
 			var selectedTypeIndex = (int)Enum.Parse<CreatureStatType>(selectedTypeName);
-			type.enumValueIndex = selectedTypeIndex > 0 ? selectedTypeIndex : 1;
+			type.enumValueIndex = selectedTypeIndex;
 			EditorGUILayout.EndHorizontal(); // level: 3
 			EditorGUILayout.BeginHorizontal(); // level: 3
 			GUILayout.Label("Modifier:", _labelsWidth);
@@ -89,7 +95,7 @@ public class CardConfigEditor : Editor
 			if (drawDurationField)
 			{
 				EditorGUILayout.BeginHorizontal(); // level: 3
-				GUILayout.Label("Duration:", _labelsWidth);
+				GUILayout.Label("Turns duration:", _labelsWidth);
 				var duration = property.FindPropertyRelative("duration");
 				duration.intValue = EditorGUILayout.IntField(duration.intValue, _effectDurationWidth);
 				EditorGUILayout.EndHorizontal(); // level: 3
@@ -117,7 +123,16 @@ public class CardConfigEditor : Editor
 	{
 		var selectedTypeName = EditorGUILayout.EnumPopup((CardType)_cardTypeProperty.enumValueIndex, _valuesWidth).ToString();
 		var selectedTypeIndex = (int)Enum.Parse<CardType>(selectedTypeName);
-		_cardTypeProperty.enumValueIndex = selectedTypeIndex > 0 ? selectedTypeIndex : 1;
-		return (CardType)_cardTypeProperty.enumValueIndex;
+		_cardTypeProperty.enumValueIndex = selectedTypeIndex;
+		return (CardType)selectedTypeIndex;
+	}
+
+	private void DrawCardTargetTypeEnumPopup()
+	{
+		var selectedTypeName = EditorGUILayout.EnumPopup((CardTargetType)_cardTargetTypeProperty.enumValueIndex,
+												   _valuesWidth,
+												   GUILayout.ExpandWidth(false)).ToString();
+		var selectedTypeIndex = (int)Enum.Parse<CardTargetType>(selectedTypeName);
+		_cardTargetTypeProperty.enumValueIndex = selectedTypeIndex;
 	}
 }

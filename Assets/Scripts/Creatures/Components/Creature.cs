@@ -1,4 +1,5 @@
 ﻿using System;
+using CoreGameplay;
 using UnityEngine;
 
 namespace Creatures
@@ -7,6 +8,7 @@ namespace Creatures
 	{
 		[SerializeField] private CreatureConfig config;
 		[SerializeField] private Transform cardSpawnPoint;
+		[SerializeField] private GameTeamType team;
 
 		private CreatureEffectsController _effectsController;
 		private CreatureStatsContainer _stats;
@@ -16,6 +18,7 @@ namespace Creatures
 		public CreatureEffectsController EffectsController => _effectsController;
 		public CreatureStatsContainer Stats => _stats;
 		public Transform CardSpawnPoint => cardSpawnPoint;
+		public GameTeamType Team => team;
 
 		private void Awake()
 		{
@@ -27,10 +30,7 @@ namespace Creatures
 		private void OnHealthChanged(float value)
 		{
 			if (value <= 0)
-			{
 				Died?.Invoke();
-				Destroy(gameObject);
-			}
 		}
 	}
 }
