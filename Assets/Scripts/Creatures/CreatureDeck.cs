@@ -8,6 +8,7 @@ namespace Creatures
 	{
 		private CardConfigsContainer _cardsConfigs;
 		private Creature _creature;
+		private Card _spawnedCard;
 		private GameTeamType _team;
 
 		public event System.Action CardUsed;
@@ -20,11 +21,13 @@ namespace Creatures
 			_cardsConfigs = configsContainer;
 			_team = team;
 			GameController.Instance.TurnStarted += OnTurnStarted;
+			GameController.Instance.TurnEnded += OnTurnEnded;
 		}
 
 		~CreatureDeck()
 		{
 			GameController.Instance.TurnStarted -= OnTurnStarted;
+			GameController.Instance.TurnEnded -= OnTurnEnded;
 		}
 
 		private void OnTurnStarted(GameTeamType team)
@@ -33,15 +36,21 @@ namespace Creatures
 				return;
 
 			var prefabToSpawn = _cardsConfigs.GetRandomCardConfig().Prefab;
-			var spawnedCard = Object.Instantiate(prefabToSpawn, _creature.CardSpawnPoint.position, Quaternion.identity);
 
-			spawnedCard.transform.SetParent(_creature.transform);
-			spawnedCard.DragNDropProvider.DraggedOverCreature += (targetCreature) => OnDragOverCreature(targetCreature, spawnedCard);
+			_spawnedCard = Object.Instantiate(prefabToSpawn, _creature.CardSpawnPoint.position, Quaternion.identity);
+			_spawnedCard.transform.SetParent(_creature.transform);
+			_spawnedCard.DragNDropProvider.DraggedOverCreature += OnDragOverCreature;
 		}
 
-		private void OnDragOverCreature(Creature targetCreature, Card sourceCard)
+		private void OnTurnEnded(GameTeamType team)
 		{
-			var cardConfig = sourceCard.Config;
+			if (_spawnedCard)
+				Object.Destroy(_spawnedCard.gameObject);
+		}
+
+		private void OnDragOverCreature(Creature targetCreature)
+		{
+			var cardConfig = _spawnedCard.Config;
 			var effectsApplied = false;
 			switch (cardConfig.TargetType)
 			{
@@ -61,7 +70,7 @@ namespace Creatures
 
 			if (effectsApplied)
 			{
-				Object.Destroy(sourceCard.gameObject);
+				Object.Destroy(_spawnedCard.gameObject);
 				CardUsed?.Invoke();
 			}
 		}

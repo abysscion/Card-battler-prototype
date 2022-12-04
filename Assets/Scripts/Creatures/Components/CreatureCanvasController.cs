@@ -10,7 +10,6 @@ namespace Creatures
 		[SerializeField] private TMP_Text healthText;
 		[SerializeField] private Image healthFillImage;
 
-
 		private void Start()
 		{
 			creature.Stats.AnyStatChanged += OnStatChanged;

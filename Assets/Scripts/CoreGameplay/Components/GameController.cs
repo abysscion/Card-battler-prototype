@@ -23,20 +23,24 @@ namespace CoreGameplay
 			aiCreatures.AllCreaturesActed += OnAllCreaturesActed;
 			playerCreatures.AllCreaturesDied += OnAllCreaturesDied;
 			aiCreatures.AllCreaturesDied += OnAllCreaturesDied;
+			MainUICanvasController.Instance.EndTurnButtonClicked.AddListener(OnEndTurnButtonClicked);
 
 			StartNextTurn();
 		}
 
 		private void OnDestroy()
 		{
+			playerCreatures.AllCreaturesActed -= OnAllCreaturesActed;
+			aiCreatures.AllCreaturesActed -= OnAllCreaturesActed;
 			playerCreatures.AllCreaturesDied -= OnAllCreaturesDied;
 			aiCreatures.AllCreaturesDied -= OnAllCreaturesDied;
+			MainUICanvasController.Instance.EndTurnButtonClicked.RemoveListener(OnEndTurnButtonClicked);
 		}
 
 		private void OnAllCreaturesActed(GameTeamType team)
 		{
-			TurnEnded?.Invoke(team);
-			StartNextTurn();
+			if (team == GameTeamType.AI)
+				StartNextTurn();
 		}
 
 		private void OnAllCreaturesDied(GameTeamType team)
@@ -44,8 +48,15 @@ namespace CoreGameplay
 			TeamWon?.Invoke(team == GameTeamType.AI ? GameTeamType.Player : GameTeamType.AI);
 		}
 
+		private void OnEndTurnButtonClicked()
+		{
+			if (CurrentTeamTurn == GameTeamType.Player)
+				StartNextTurn();
+		}
+
 		private void StartNextTurn()
 		{
+			TurnEnded?.Invoke(CurrentTeamTurn);
 			CurrentTeamTurn = CurrentTeamTurn == GameTeamType.AI ? GameTeamType.Player : GameTeamType.AI;
 			TurnStarted?.Invoke(CurrentTeamTurn);
 		}
@@ -57,6 +68,8 @@ namespace CoreGameplay
 
 			if (Input.GetKeyDown(KeyCode.R))
 				SceneManager.LoadScene(0);
+			if (Input.GetKeyDown(KeyCode.Space))
+				OnEndTurnButtonClicked();
 		}
 	}
 }

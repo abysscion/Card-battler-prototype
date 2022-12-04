@@ -9,9 +9,9 @@ namespace Creatures
 	public class CreaturesController : MonoBehaviour
 	{
 		[SerializeField] private CardConfigsContainer availableCards;
-		[SerializeField] private List<Creature> creatures;
 		[SerializeField] private GameTeamType team;
-
+		[SerializeField] private List<Creature> creatures;
+		
 		private Dictionary<Creature, CreatureDeck> _creatureToCreaturesDecksDic;
 		private HashSet<Creature> _actedCreatures;
 
@@ -36,8 +36,8 @@ namespace Creatures
 				}
 				else
 				{
-					creatures.Remove(creatures[i]);
 					Debug.LogWarning($"{creatures[i].name} was disabled due to mismatching team.");
+					creatures.Remove(creatures[i]);
 				}
 			}
 

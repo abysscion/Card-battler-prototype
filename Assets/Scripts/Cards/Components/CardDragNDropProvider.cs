@@ -11,8 +11,9 @@ namespace Cards
 
 		public event Action<Creature> DraggedOverCreature;
 
-		private void Start()
+		protected override void Start()
 		{
+			base.Start();
 			DragSuccesseded += OnDragSuccesseded;
 		}
 

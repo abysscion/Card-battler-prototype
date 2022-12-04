@@ -13,6 +13,16 @@ namespace CoreGameplay
 
 		private Transform _dndGhost;
 
+		protected virtual void Start()
+		{
+			GameController.Instance.TurnEnded += OnTurnEnded;
+		}
+
+		protected virtual void OnDestroy()
+		{
+			GameController.Instance.TurnEnded -= OnTurnEnded;
+		}
+
 		protected override void OnMouseDrag()
 		{
 			base.OnMouseDrag();
@@ -40,6 +50,12 @@ namespace CoreGameplay
 				DragSuccesseded?.Invoke(Input.mousePosition);
 				Destroy(_dndGhost.gameObject);
 			}
+		}
+
+		private void OnTurnEnded(GameTeamType _)
+		{
+			if (_dndGhost)
+				Destroy(_dndGhost.gameObject);
 		}
 	}
 }

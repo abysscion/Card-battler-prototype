@@ -146,8 +146,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0b1da4036927cbb47b4194a70c1ed710, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 0b1da4036927cbb47b4194a70c1ed710, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -745,3 +745,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   config: {fileID: 11400000, guid: 728669196104020449d80ba0c587cee9, type: 2}
   cardSpawnPoint: {fileID: 3724408228235414030}
+  team: 0
