@@ -16,11 +16,10 @@ MonoBehaviour:
   - statModifiers:
     - type: 2
       value: 5
-    dispellableTypes: 
+    dispellableEffectTypes: 
     targetType: 1
-    effectType: 0
-    value: 1
-    shouldBeProccessedOnAdd: 0
+    effectType: 3
+    value: 5
     turnsDuration: 3
   prefab: {fileID: 1285616541888473698, guid: 15e42584aaf50324db8978c59af70229, type: 3}
   targetType: 0

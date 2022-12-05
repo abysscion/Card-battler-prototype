@@ -14,11 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectConfigs:
   - statModifiers: []
-    dispellableTypes: 04000000
+    dispellableEffectTypes: 04000000
     targetType: 1
     effectType: 2
-    value: 1
-    shouldBeProccessedOnAdd: 0
+    value: 3
     turnsDuration: 0
   prefab: {fileID: 1285616541888473698, guid: 2dd20bb3e821b0c4c9df4ac1f277cb19, type: 3}
   targetType: 0

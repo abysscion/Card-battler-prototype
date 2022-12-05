@@ -1,18 +1,26 @@
-﻿using System;
-using Creatures;
+﻿using Creatures;
 
 namespace Cards
 {
-	[Serializable]
 	public class CardEffectApplyPoison : CardEffect
 	{
-		public override int TurnsDuration => throw new NotImplementedException();
+		private CardEffectType _effectType;
+		private float _damageValue;
+		private int _duration;
 
-		public override CardEffectType Type => throw new NotImplementedException();
+		public override CardEffectType Type => _effectType;
+		public override int TurnsDuration => _duration;
 
-		public override void ProcessCardEffect(Creature target)
+		public CardEffectApplyPoison(CardEffectConfig config)
 		{
-			throw new NotImplementedException();
+			_effectType = config.EffectType;
+			_damageValue = config.Value;
+			_duration = config.TurnsDuration;
+		}
+
+		public override void ProcessCardEffect(Creature targetCreature)
+		{
+			targetCreature.Stats.AddValue(CreatureStatType.Health, -_damageValue);
 		}
 	}
 }

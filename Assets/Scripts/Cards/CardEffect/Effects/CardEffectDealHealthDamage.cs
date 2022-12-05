@@ -21,6 +21,7 @@ namespace Cards
 		public override void ProcessCardEffect(Creature targetCreature)
 		{
 			var stats = targetCreature.Stats;
+
 			if (stats.GetValue(CreatureStatType.Shield) <= 0)
 				targetCreature.Stats.AddValue(CreatureStatType.Health, -_damageValue);
 			else

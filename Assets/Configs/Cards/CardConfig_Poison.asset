@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: CardConfig_Poison
   m_EditorClassIdentifier: 
   effectConfigs:
-  - statModifiers: []
-    dispellableTypes: 
+  - statModifiers:
+    - type: 1
+      value: -1
+    dispellableEffectTypes: 
     targetType: 1
     effectType: 4
     value: 1
@@ -22,10 +24,10 @@ MonoBehaviour:
   - statModifiers:
     - type: 1
       value: -1
-    dispellableTypes: 
+    dispellableEffectTypes: 
     targetType: 1
     effectType: 1
-    value: 0
+    value: 1
     turnsDuration: 0
-  prefab: {fileID: 1285616541888473698, guid: 15e42584aaf50324db8978c59af70229, type: 3}
+  prefab: {fileID: 1285616541888473698, guid: e544be603611d564db0bf2d60590ab6e, type: 3}
   targetType: 2

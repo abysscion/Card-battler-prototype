@@ -7,7 +7,7 @@ namespace Creatures
 {
 	public class CreatureEffectsController
 	{
-		private List<ActiveEffectWrapper> _activeEffects;
+		private List<ActiveEffectWrapper> _activeEffectsWrappers;
 		private Creature _host;
 
 		public event System.Action<CardActiveEffect> ActiveEffectAdded;
@@ -15,7 +15,7 @@ namespace Creatures
 
 		public CreatureEffectsController(Creature creature)
 		{
-			_activeEffects = new List<ActiveEffectWrapper>();
+			_activeEffectsWrappers = new List<ActiveEffectWrapper>();
 			_host = creature;
 			GameController.TurnEnded += OnTurnEnded;
 		}
@@ -34,7 +34,7 @@ namespace Creatures
 				var activeEffect = new CardActiveEffect(effect, effect.TurnsDuration, out var turnsCountSetter);
 				var effectWrapper = new ActiveEffectWrapper(activeEffect, turnsCountSetter);
 
-				_activeEffects.Add(effectWrapper);
+				_activeEffectsWrappers.Add(effectWrapper);
 				ActiveEffectAdded?.Invoke(activeEffect);
 			}
 			else
@@ -46,32 +46,46 @@ namespace Creatures
 		{
 			var dispelledAtLeastOneEffect = false;
 
-			for (int i = 0; i < _activeEffects.Count; i++)
+			for (int i = 0; i < _activeEffectsWrappers.Count; i++)
 			{
-				if (_activeEffects[i].activeEffect.Effect.Type != effectTypeToDispell)
+				if (_activeEffectsWrappers[i].activeEffect.Effect.Type != effectTypeToDispell)
 					continue;
 
 				dispelledAtLeastOneEffect = true;
-				ActiveEffectRemoved?.Invoke(_activeEffects[i].activeEffect);
-				_activeEffects.RemoveAt(i);
+				ActiveEffectRemoved?.Invoke(_activeEffectsWrappers[i].activeEffect);
+				_activeEffectsWrappers.RemoveAt(i);
+				i--;
 			}
 
 			return dispelledAtLeastOneEffect;
 		}
 
+		public CardActiveEffect[] GetActiveEffects()
+		{
+			var result = new CardActiveEffect[_activeEffectsWrappers.Count];
+
+			for (int i = 0; i < _activeEffectsWrappers.Count; i++)
+				result[i] = _activeEffectsWrappers[i].activeEffect;
+			return result;
+		}
+
 		private void OnTurnEnded(GameTeamType teamTurn)
 		{
-			for (var i = 0; i < _activeEffects.Count; i++)
+			if (_host.Team != teamTurn)
+				return;
+
+			for (var i = 0; i < _activeEffectsWrappers.Count; i++)
 			{
-				var activeEffect = _activeEffects[i].activeEffect;
+				var activeEffect = _activeEffectsWrappers[i].activeEffect;
 
 				activeEffect.Effect.ProcessCardEffect(_host);
-				_activeEffects[i].turnsCountSetter.Invoke(activeEffect.TurnsRemaining - 1);
-				if (activeEffect.TurnsRemaining <= 0)
+				_activeEffectsWrappers[i].turnsCountSetter.Invoke(activeEffect.TurnsRemaining - 1);
+				if (activeEffect.TurnsRemaining > 0)
 					continue;
 
-				ActiveEffectRemoved?.Invoke(_activeEffects[i].activeEffect);
-				_activeEffects.RemoveAt(i);
+				ActiveEffectRemoved?.Invoke(_activeEffectsWrappers[i].activeEffect);
+				_activeEffectsWrappers.RemoveAt(i);
+				i--;
 			}
 		}
 
