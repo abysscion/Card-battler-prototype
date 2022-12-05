@@ -71,22 +71,13 @@ public partial class CardConfigEditor : Editor
 		}
 	}
 
-	private CardEffectType DrawCardEffectTypeEnumPopup(SerializedProperty cardEffectTypeProperty)
-	{
-		EditorGUILayout.BeginHorizontal();
-		GUILayout.Label("Effect type:", _labelsWidth);
-		var selected = (CardEffectType)cardEffectTypeProperty.enumValueIndex;
-		var selectedTypeName = EditorGUILayout.EnumPopup(selected, _valuesWidth, GUILayout.ExpandWidth(false)).ToString();
-		var selectedTypeIndex = (int)Enum.Parse(selected.GetType(), selectedTypeName);
-		cardEffectTypeProperty.enumValueIndex = selectedTypeIndex;
-		EditorGUILayout.EndHorizontal();
-		return (CardEffectType)selectedTypeIndex;
-	}
-
 	private void DrawCardTargetTypeEnumPopup()
 	{
 		EditorGUILayout.BeginHorizontal();
 		GUILayout.Label("Target type:", GUILayout.ExpandWidth(false), _labelsWidth);
+		//TODO: add gui content tooltip: "on card usage effect will be applied to target type
+		//	i.e. other - on selected enemy / self - on self"
+		//	could be useful for smth like vampiric bite - damage to enemy, heal to self
 		var selected = (CardTargetType)_cardTargetTypeProperty.enumValueIndex;
 		var selectedTypeName = EditorGUILayout.EnumPopup(selected, _valuesWidth, GUILayout.ExpandWidth(false)).ToString();
 		var selectedTypeIndex = (int)Enum.Parse(selected.GetType(), selectedTypeName);

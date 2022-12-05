@@ -17,9 +17,10 @@ MonoBehaviour:
     - type: 2
       value: 5
     dispellableEffectTypes: 
-    targetType: 1
+    targetType: 0
     effectType: 3
     value: 5
+    shouldBeProcessedOnAdd: 1
     turnsDuration: 3
-  prefab: {fileID: 1285616541888473698, guid: 15e42584aaf50324db8978c59af70229, type: 3}
+  prefab: {fileID: 1285616541888473698, guid: a34b3e4b8eadf354287486a5a737ac14, type: 3}
   targetType: 0

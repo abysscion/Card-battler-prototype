@@ -6,13 +6,16 @@ namespace Cards
 	{
 		private CardEffectType _effectType;
 		private float _damageValue;
+		private bool _shouldBeProcessedOnAdd;
 		private int _duration;
 
 		public override CardEffectType Type => _effectType;
+		public override bool ShouldBeProcessedOnAdd => _shouldBeProcessedOnAdd;
 		public override int TurnsDuration => _duration;
 
 		public CardEffectDealHealthDamage(CardEffectConfig config)
 		{
+			_shouldBeProcessedOnAdd = config.ShouldBeProcessedOnAdd;
 			_effectType = config.EffectType;
 			_damageValue = config.Value;
 			_duration = config.TurnsDuration;
@@ -34,7 +37,7 @@ namespace Cards
 				else
 				{
 					targetCreature.Stats.SetValue(CreatureStatType.Shield, 0f);
-					targetCreature.Stats.AddValue(CreatureStatType.Health, -shieldAfterDamage);
+					targetCreature.Stats.AddValue(CreatureStatType.Health, shieldAfterDamage);
 				}
 			}
 		}

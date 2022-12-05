@@ -25,24 +25,26 @@ namespace Creatures
 			GameController.TurnEnded -= OnTurnEnded;
 		}
 
-		public bool TryApplyEffect(CardEffect effect)
+		public bool TryApplyEffect(CardEffect cardEffect)
 		{
-			if (effect.TurnsDuration == 0)
-				effect.ProcessCardEffect(_host);
-			else if (effect.TurnsDuration > 0)
+			if (cardEffect.TurnsDuration == 0)
+				cardEffect.ProcessCardEffect(_host);
+			else if (cardEffect.TurnsDuration > 0)
 			{
-				var activeEffect = new CardActiveEffect(effect, effect.TurnsDuration, out var turnsCountSetter);
+				var activeEffect = new CardActiveEffect(cardEffect, cardEffect.TurnsDuration, out var turnsCountSetter);
 				var effectWrapper = new ActiveEffectWrapper(activeEffect, turnsCountSetter);
 
 				_activeEffectsWrappers.Add(effectWrapper);
 				ActiveEffectAdded?.Invoke(activeEffect);
+				if (cardEffect.ShouldBeProcessedOnAdd)
+					cardEffect.ProcessCardEffect(_host);
 			}
 			else
 				return false;
 			return true;
 		}
 
-		public bool TryDispelEffects(CardEffectType effectTypeToDispell)
+		public bool TryDispelEffectsOfType(CardEffectType effectTypeToDispell)
 		{
 			var dispelledAtLeastOneEffect = false;
 
@@ -58,6 +60,23 @@ namespace Creatures
 			}
 
 			return dispelledAtLeastOneEffect;
+		}
+
+		public void DispelAllEffectsOfTypeExceptGiven(CardEffectType effectTypeToDispell, CardEffect effectToKeep)
+		{
+			CardActiveEffect activeEffectToKeep;
+
+			for (var i = 0; i < _activeEffectsWrappers.Count; i++)
+			{
+				if (_activeEffectsWrappers[i].activeEffect.Effect == effectToKeep)
+					activeEffectToKeep = _activeEffectsWrappers[i].activeEffect;
+				else if (_activeEffectsWrappers[i].activeEffect.Effect.Type == effectTypeToDispell)
+				{
+					ActiveEffectRemoved?.Invoke(_activeEffectsWrappers[i].activeEffect);
+					_activeEffectsWrappers.RemoveAt(i);
+					i--;
+				}
+			}
 		}
 
 		public CardActiveEffect[] GetActiveEffects()

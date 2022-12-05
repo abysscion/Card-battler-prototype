@@ -16,9 +16,8 @@
 					effect = new CardEffectDealHealthDamage(config);
 					return true;
 				case CardEffectType.Shield:
-					effect = null;
-					throw new System.Exception();
-					break;
+					effect = new CardEffectShield(config);
+					return true;
 				case CardEffectType.Poison:
 					effect = new CardEffectApplyPoison(config);
 					return true;

@@ -13,11 +13,13 @@ namespace Cards
 		[SerializeField] private CardEffectTargetType targetType;
 		[SerializeField] private CardEffectType effectType;
 		[SerializeField] private float value;
+		[SerializeField] private bool shouldBeProcessedOnAdd;
 		[SerializeField] private int turnsDuration;
 
 		public CardEffectTargetType TargetType => targetType;
 		public CardEffectType EffectType => effectType;
 		public float Value => value;
+		public bool ShouldBeProcessedOnAdd => shouldBeProcessedOnAdd;
 		public int TurnsDuration => turnsDuration;
 
 		public CreatureStatModifier[] GetStatModifiers()

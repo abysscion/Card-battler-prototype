@@ -6,6 +6,7 @@
 
 		private float _value;
 
+		/// <summary> T0 refers to a new value after change </summary>
 		public System.Action<float> ValueChanged;
 
 		public float Value

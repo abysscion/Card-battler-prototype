@@ -8,10 +8,11 @@ namespace Cards
 	{
 		private HashSet<CreatureStatModifier> _statModifiers;
 		private CardEffectType _effectType;
+		private bool _shouldBeProcessedOnAdd;
 		private int _duration;
 
 		public override CardEffectType Type => _effectType;
-
+		public override bool ShouldBeProcessedOnAdd => _shouldBeProcessedOnAdd;
 		public override int TurnsDuration => _duration;
 
 		public CardEffectChangeCreatureStat(CardEffectConfig config)
@@ -19,6 +20,7 @@ namespace Cards
 			_statModifiers = new HashSet<CreatureStatModifier>();
 			_duration = config.TurnsDuration;
 			_effectType = config.EffectType;
+			_shouldBeProcessedOnAdd = config.ShouldBeProcessedOnAdd;
 			foreach (var statModifier in config.GetStatModifiers())
 				_statModifiers.Add(statModifier);
 		}

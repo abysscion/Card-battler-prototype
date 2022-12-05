@@ -32,7 +32,7 @@ namespace Creatures
 				newStat.ValueChanged += (changedValue) => AnyStatChanged?.Invoke(newStatType, newStat.Value);
 			}
 
-			//it's possible to autofill stats container through config
+			//TODO: it's possible to autofill stats container through config
 			// if config will contain stats as a parsable container
 			_statTypeToStatDic[CreatureStatType.MaxHealth].Value = config.HealthMax;
 			_statTypeToStatDic[CreatureStatType.Health].Value = config.HealthMax;
@@ -43,7 +43,7 @@ namespace Creatures
 			return _statTypeToStatDic[type].Value;
 		}
 
-		//way to strict stat set method access?
+		//TODO: way to strict stat set method access?
 		public void SetValue(CreatureStatType type, float value)
 		{
 			_statTypeToStatDic[type].Value = value;

@@ -9,8 +9,10 @@ public partial class CardConfigEditor : Editor
 	private void DrawEffectSettings(SerializedProperty effectConfigProperty)
 	{
 		EditorGUILayout.BeginVertical();
-		var cardEffectType = DrawCardEffectTypeEnumPopup(effectConfigProperty.FindPropertyRelative("effectType"));
+		var cardEffectType = DrawCardEffectTypeProperty(effectConfigProperty.FindPropertyRelative("effectType"));
+		DrawCardEffectTargetTypeProperty(effectConfigProperty.FindPropertyRelative("targetType"));
 		DrawTurnsDurationProperty(effectConfigProperty);
+		DrawShouldBeProcessedOnAddProperty(effectConfigProperty);
 		DrawEffectSettingsDependingOnEffectType(cardEffectType, effectConfigProperty);
 		EditorGUILayout.EndVertical();
 	}
@@ -139,12 +141,44 @@ public partial class CardConfigEditor : Editor
 		EditorGUILayout.EndVertical();
 	}
 
+	private void DrawCardEffectTargetTypeProperty(SerializedProperty cardEffectTargetTypeProperty)
+	{
+		EditorGUILayout.BeginHorizontal();
+		GUILayout.Label("Target type:", _labelsWidth);
+		var selected = (CardEffectTargetType)cardEffectTargetTypeProperty.enumValueIndex;
+		var selectedTypeName = EditorGUILayout.EnumPopup(selected, _valuesWidth).ToString();
+		var selectedTypeIndex = (int)Enum.Parse(selected.GetType(), selectedTypeName);
+		cardEffectTargetTypeProperty.enumValueIndex = selectedTypeIndex;
+		EditorGUILayout.EndHorizontal();
+	}
+
+	private CardEffectType DrawCardEffectTypeProperty(SerializedProperty cardEffectTypeProperty)
+	{
+		EditorGUILayout.BeginHorizontal();
+		GUILayout.Label("Effect type:", _labelsWidth);
+		var selected = (CardEffectType)cardEffectTypeProperty.enumValueIndex;
+		var selectedTypeName = EditorGUILayout.EnumPopup(selected, _valuesWidth, GUILayout.ExpandWidth(false)).ToString();
+		var selectedTypeIndex = (int)Enum.Parse(selected.GetType(), selectedTypeName);
+		cardEffectTypeProperty.enumValueIndex = selectedTypeIndex;
+		EditorGUILayout.EndHorizontal();
+		return (CardEffectType)selectedTypeIndex;
+	}
+
 	private void DrawTurnsDurationProperty(SerializedProperty effectConfigProperty)
 	{
 		EditorGUILayout.BeginHorizontal();
 		GUILayout.Label("Turns duration:", _labelsWidth);
 		var duration = effectConfigProperty.FindPropertyRelative("turnsDuration");
 		duration.intValue = EditorGUILayout.IntField(duration.intValue, _valuesWidth);
+		EditorGUILayout.EndHorizontal();
+	}
+
+	private void DrawShouldBeProcessedOnAddProperty(SerializedProperty effectConfigProperty)
+	{
+		EditorGUILayout.BeginHorizontal();
+		var property = effectConfigProperty.FindPropertyRelative("shouldBeProcessedOnAdd");
+		GUILayout.Label("Process on add", _labelsWidth);
+		property.boolValue = GUILayout.Toggle(property.boolValue, "", GUILayout.ExpandWidth(false));
 		EditorGUILayout.EndHorizontal();
 	}
 }
