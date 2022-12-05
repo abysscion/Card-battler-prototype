@@ -30,7 +30,10 @@ namespace Creatures
 		private void OnHealthChanged(float value)
 		{
 			if (value <= 0)
+			{
+				Stats.RemoveSubscriberFromValueChanged(CreatureStatType.Health, OnHealthChanged);
 				Died?.Invoke();
+			}
 		}
 	}
 }

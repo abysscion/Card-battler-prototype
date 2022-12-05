@@ -10,5 +10,6 @@ namespace Cards
 		public abstract bool ShouldBeProcessedOnAdd { get; }
 		public abstract int TurnsDuration { get; }
 		public abstract void ProcessCardEffect(Creature target);
+		public abstract void Dispose();
 	}
 }

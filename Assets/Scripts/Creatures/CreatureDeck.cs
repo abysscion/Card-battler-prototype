@@ -21,11 +21,13 @@ namespace Creatures
 			_cardsConfigs = configsContainer;
 			_creature = creature;
 			_team = team;
+
+			_creature.Died += OnCreatureDided;
 			GameController.TurnStarted += OnTurnStarted;
 			GameController.TurnEnded += OnTurnEnded;
 		}
 
-		~CreatureDeck()
+		private void OnCreatureDided()
 		{
 			GameController.TurnStarted -= OnTurnStarted;
 			GameController.TurnEnded -= OnTurnEnded;

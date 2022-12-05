@@ -26,5 +26,7 @@ namespace Cards
 		{
 			targetCreature.Stats.AddValue(CreatureStatType.Health, -_damageValue);
 		}
+
+		public override void Dispose() { }
 	}
 }

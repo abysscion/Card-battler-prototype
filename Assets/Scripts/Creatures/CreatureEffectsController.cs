@@ -54,8 +54,7 @@ namespace Creatures
 					continue;
 
 				dispelledAtLeastOneEffect = true;
-				ActiveEffectRemoved?.Invoke(_activeEffectsWrappers[i].activeEffect);
-				_activeEffectsWrappers.RemoveAt(i);
+				RemoveEffectWrapper(_activeEffectsWrappers[i]);
 				i--;
 			}
 
@@ -64,16 +63,13 @@ namespace Creatures
 
 		public void DispelAllEffectsOfTypeExceptGiven(CardEffectType effectTypeToDispell, CardEffect effectToKeep)
 		{
-			CardActiveEffect activeEffectToKeep;
-
 			for (var i = 0; i < _activeEffectsWrappers.Count; i++)
 			{
 				if (_activeEffectsWrappers[i].activeEffect.Effect == effectToKeep)
-					activeEffectToKeep = _activeEffectsWrappers[i].activeEffect;
+					continue;
 				else if (_activeEffectsWrappers[i].activeEffect.Effect.Type == effectTypeToDispell)
 				{
-					ActiveEffectRemoved?.Invoke(_activeEffectsWrappers[i].activeEffect);
-					_activeEffectsWrappers.RemoveAt(i);
+					RemoveEffectWrapper(_activeEffectsWrappers[i]);
 					i--;
 				}
 			}
@@ -102,10 +98,16 @@ namespace Creatures
 				if (activeEffect.TurnsRemaining > 0)
 					continue;
 
-				ActiveEffectRemoved?.Invoke(_activeEffectsWrappers[i].activeEffect);
-				_activeEffectsWrappers.RemoveAt(i);
+				RemoveEffectWrapper(_activeEffectsWrappers[i]);
 				i--;
 			}
+		}
+
+		private void RemoveEffectWrapper(ActiveEffectWrapper efectWrapper)
+		{
+			efectWrapper.activeEffect.Effect.Dispose();
+			ActiveEffectRemoved?.Invoke(efectWrapper.activeEffect);
+			_activeEffectsWrappers.Remove(efectWrapper);
 		}
 
 		private class ActiveEffectWrapper

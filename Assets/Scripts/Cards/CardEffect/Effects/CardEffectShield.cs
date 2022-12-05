@@ -14,7 +14,6 @@ namespace Cards
 		public override CardEffectType Type => _effectType;
 		public override bool ShouldBeProcessedOnAdd => _shouldBeProcessedOnAdd;
 		public override int TurnsDuration => _duration;
-		public float RemainingCapacity => _initialCapacity;
 
 		public CardEffectShield(CardEffectConfig config)
 		{
@@ -24,16 +23,15 @@ namespace Cards
 			_shouldBeProcessedOnAdd = config.ShouldBeProcessedOnAdd;
 		}
 
-		~CardEffectShield()
-		{
-			if (_host && _host.Stats != null)
-				_host.Stats.RemoveSubscriberFromValueChanged(CreatureStatType.Shield, OnShieldDeplete);
-			_host.Stats.SetValue(CreatureStatType.Shield, 0f);
-		}
-
 		public override void ProcessCardEffect(Creature targetCreature)
 		{
 			ProcessFirstTimeIfNeeded(targetCreature);
+		}
+
+		public override void Dispose()
+		{
+			_host.Stats.RemoveSubscriberFromValueChanged(CreatureStatType.Shield, OnShieldDeplete);
+			_host.Stats.SetValue(CreatureStatType.Shield, 0f);
 		}
 
 		private void ProcessFirstTimeIfNeeded(Creature targetCreature)

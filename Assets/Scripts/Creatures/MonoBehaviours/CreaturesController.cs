@@ -27,17 +27,18 @@ namespace Creatures
 
 			for (int i = 0; i < creatures.Count; i++)
 			{
-				if (!TryDisableInappropriateTeamCreature(creatures[i]))
-				{
-					var creatureDeck = new CreatureDeck(creatures[i], availableCards, team);
-					_creatureToCreaturesDecksDic.Add(creatures[i], creatureDeck);
-					creatureDeck.CardUsed += () => OnCreatureDeckUsedCard(creatureDeck);
-					creatures[i].Died += () => OnCreatureDied(creatures[i]);
-				}
-				else
+				if (TryDisableInappropriateTeamCreature(creatures[i]))
 				{
 					Debug.LogWarning($"{creatures[i].name} was disabled due to mismatching team.");
 					creatures.Remove(creatures[i]);
+				}
+				else
+				{
+					var creature = creatures[i];
+					var creatureDeck = new CreatureDeck(creature, availableCards, team);
+					_creatureToCreaturesDecksDic.Add(creature, creatureDeck);
+					creatureDeck.CardUsed += () => OnCreatureDeckUsedCard(creatureDeck);
+					creature.Died += () => OnCreatureDied(creature);
 				}
 			}
 
@@ -67,6 +68,7 @@ namespace Creatures
 
 		private void OnCreatureDied(Creature creature)
 		{
+			_creatureToCreaturesDecksDic.Remove(creature);
 			creatures.Remove(creature);
 			Destroy(creature.gameObject);
 			if (creatures.Count <= 0)

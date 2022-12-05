@@ -9,6 +9,8 @@ namespace Creatures
 		[SerializeField] private Creature creature;
 		[SerializeField] private TMP_Text healthText;
 		[SerializeField] private Image healthFillImage;
+		[SerializeField] private Image shieldFillImage;
+		[SerializeField] private TMP_Text shieldText;
 
 		private void Start()
 		{
@@ -27,9 +29,23 @@ namespace Creatures
 		{
 			var maxHealthValue = creature.Stats.GetValue(CreatureStatType.MaxHealth);
 			var healthValue = creature.Stats.GetValue(CreatureStatType.Health);
+			var shieldValue = creature.Stats.GetValue(CreatureStatType.Shield);
 
 			healthText.text = $"{Mathf.CeilToInt(healthValue)}/{Mathf.CeilToInt(maxHealthValue)}";
 			healthFillImage.fillAmount = healthValue / maxHealthValue;
+
+			if (shieldValue <= 0)
+			{
+				shieldText.gameObject.SetActive(false);
+				shieldFillImage.gameObject.SetActive(false);
+			}
+			else
+			{
+				shieldText.gameObject.SetActive(true);
+				shieldFillImage.gameObject.SetActive(true);
+				shieldText.text = $"({Mathf.CeilToInt(shieldValue)})";
+				shieldFillImage.fillAmount = shieldValue / maxHealthValue;
+			}
 		}
 	}
 }

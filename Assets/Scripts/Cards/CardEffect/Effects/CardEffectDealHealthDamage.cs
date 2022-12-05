@@ -41,5 +41,7 @@ namespace Cards
 				}
 			}
 		}
+
+		public override void Dispose() { }
 	}
 }

@@ -7,8 +7,8 @@ namespace Cards
 	{
 		private CardEffectType[] _dispellableTypes;
 		private CardEffectType _effectType;
-		private bool _shouldBeProcessedOnAdd;
 		private float _healValue;
+		private bool _shouldBeProcessedOnAdd;
 		private int _duration;
 
 		public override CardEffectType Type => _effectType;
@@ -34,5 +34,7 @@ namespace Cards
 
 			stats.AddValue(CreatureStatType.Health, Mathf.Clamp(_healValue, 0f, missingHealth));
 		}
+
+		public override void Dispose() { }
 	}
 }
