@@ -1,5 +1,8 @@
-﻿namespace Creatures
+﻿using System;
+
+namespace Creatures
 {
+	[Serializable]
 	public struct CreatureStatModifier
 	{
 		public CreatureStatType type;

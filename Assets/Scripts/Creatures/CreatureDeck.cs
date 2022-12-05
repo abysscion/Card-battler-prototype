@@ -8,7 +8,6 @@ namespace Creatures
 	public class CreatureDeck
 	{
 		private CardConfigsContainer _cardsConfigs;
-		private CardEffectFactory _cardEffectsFactory;
 		private Creature _creature;
 		private Card _spawnedCard;
 		private GameTeamType _team;
@@ -19,18 +18,17 @@ namespace Creatures
 
 		public CreatureDeck(Creature creature, CardConfigsContainer configsContainer, GameTeamType team)
 		{
-			_cardEffectsFactory = new CardEffectFactory();
 			_cardsConfigs = configsContainer;
 			_creature = creature;
 			_team = team;
-			GameController.Instance.TurnStarted += OnTurnStarted;
-			GameController.Instance.TurnEnded += OnTurnEnded;
+			GameController.TurnStarted += OnTurnStarted;
+			GameController.TurnEnded += OnTurnEnded;
 		}
 
 		~CreatureDeck()
 		{
-			GameController.Instance.TurnStarted -= OnTurnStarted;
-			GameController.Instance.TurnEnded -= OnTurnEnded;
+			GameController.TurnStarted -= OnTurnStarted;
+			GameController.TurnEnded -= OnTurnEnded;
 		}
 
 		private void OnTurnStarted(GameTeamType team)
@@ -73,7 +71,7 @@ namespace Creatures
 		{
 			foreach (var effectConfig in effectConfigs)
 			{
-				if (!_cardEffectsFactory.TryCreateEffectByConfig(effectConfig, out var effect))
+				if (!CardEffectFactory.TryCreateEffectByConfig(effectConfig, out var effect))
 					continue;
 
 				switch (effectConfig.TargetType)

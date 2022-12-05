@@ -15,12 +15,12 @@ namespace CoreGameplay
 
 		protected virtual void Start()
 		{
-			GameController.Instance.TurnEnded += OnTurnEnded;
+			GameController.TurnEnded += OnTurnEnded;
 		}
 
 		protected virtual void OnDestroy()
 		{
-			GameController.Instance.TurnEnded -= OnTurnEnded;
+			GameController.TurnEnded -= OnTurnEnded;
 		}
 
 		protected override void OnMouseDrag()

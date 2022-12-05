@@ -11,7 +11,7 @@ namespace Creatures
 		[SerializeField] private CardConfigsContainer availableCards;
 		[SerializeField] private GameTeamType team;
 		[SerializeField] private List<Creature> creatures;
-		
+
 		private Dictionary<Creature, CreatureDeck> _creatureToCreaturesDecksDic;
 		private HashSet<Creature> _actedCreatures;
 
@@ -41,14 +41,14 @@ namespace Creatures
 				}
 			}
 
-			GameController.Instance.TurnStarted += OnTurnStarted;
-			GameController.Instance.TurnEnded += OnTurnEnded;
+			GameController.TurnStarted += OnTurnStarted;
+			GameController.TurnEnded += OnTurnEnded;
 		}
 
 		private void OnDestroy()
 		{
-			GameController.Instance.TurnStarted -= OnTurnStarted;
-			GameController.Instance.TurnEnded -= OnTurnEnded;
+			GameController.TurnStarted -= OnTurnStarted;
+			GameController.TurnEnded -= OnTurnEnded;
 		}
 
 		private void OnTurnStarted(GameTeamType teamTurn)

@@ -11,9 +11,9 @@ namespace CoreGameplay
 		[SerializeField] private CreaturesController playerCreatures;
 		[SerializeField] private CreaturesController aiCreatures;
 
-		public event Action<GameTeamType> TurnStarted;
-		public event Action<GameTeamType> TurnEnded;
-		public event Action<GameTeamType> TeamWon;
+		public static event Action<GameTeamType> TurnStarted;
+		public static event Action<GameTeamType> TurnEnded;
+		public static event Action<GameTeamType> TeamWon;
 
 		public GameTeamType CurrentTeamTurn { get; private set; }
 
@@ -35,6 +35,9 @@ namespace CoreGameplay
 			playerCreatures.AllCreaturesDied -= OnAllCreaturesDied;
 			aiCreatures.AllCreaturesDied -= OnAllCreaturesDied;
 			MainUICanvasController.Instance.EndTurnButtonClicked.RemoveListener(OnEndTurnButtonClicked);
+			TurnStarted = null;
+			TurnEnded = null;
+			TeamWon = null;
 		}
 
 		private void OnAllCreaturesActed(GameTeamType team)

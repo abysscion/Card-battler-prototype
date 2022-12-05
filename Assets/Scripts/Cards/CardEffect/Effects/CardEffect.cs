@@ -6,6 +6,7 @@ namespace Cards
 	[Serializable]
 	public abstract class CardEffect
 	{
+		public abstract CardEffectType Type { get; }
 		public abstract int TurnsDuration { get; }
 		public abstract void ProcessCardEffect(Creature target);
 	}

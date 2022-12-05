@@ -7,7 +7,10 @@ namespace Cards
 	public class CardEffectChangeCreatureStat : CardEffect
 	{
 		private HashSet<CreatureStatModifier> _statModifiers;
+		private CardEffectType _effectType;
 		private int _duration;
+
+		public override CardEffectType Type => _effectType;
 
 		public override int TurnsDuration => _duration;
 
@@ -15,6 +18,7 @@ namespace Cards
 		{
 			_statModifiers = new HashSet<CreatureStatModifier>();
 			_duration = config.TurnsDuration;
+			_effectType = config.EffectType;
 			foreach (var statModifier in config.GetStatModifiers())
 				_statModifiers.Add(statModifier);
 		}

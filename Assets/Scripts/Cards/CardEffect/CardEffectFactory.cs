@@ -1,8 +1,8 @@
 ﻿namespace Cards
 {
-	public class CardEffectFactory
+	public static class CardEffectFactory
 	{
-		public bool TryCreateEffectByConfig(CardEffectConfig config, out CardEffect effect)
+		public static bool TryCreateEffectByConfig(CardEffectConfig config, out CardEffect effect)
 		{
 			switch (config.EffectType)
 			{

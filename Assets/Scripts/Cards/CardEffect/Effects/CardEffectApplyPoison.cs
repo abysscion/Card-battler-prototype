@@ -8,6 +8,8 @@ namespace Cards
 	{
 		public override int TurnsDuration => throw new NotImplementedException();
 
+		public override CardEffectType Type => throw new NotImplementedException();
+
 		public override void ProcessCardEffect(Creature target)
 		{
 			throw new NotImplementedException();

@@ -4,13 +4,16 @@ namespace Cards
 {
 	public class CardEffectDealHealthDamage : CardEffect
 	{
+		private CardEffectType _effectType;
 		private float _damageValue;
 		private int _duration;
 
+		public override CardEffectType Type => _effectType;
 		public override int TurnsDuration => _duration;
 
 		public CardEffectDealHealthDamage(CardEffectConfig config)
 		{
+			_effectType = config.EffectType;
 			_damageValue = config.Value;
 			_duration = config.TurnsDuration;
 		}

@@ -10,14 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2881b6ffadc00b447b9147b9a9952e1b, type: 3}
-  m_Name: CardConfig_HealthDamage
+  m_Name: CardConfig_Poison
   m_EditorClassIdentifier: 
   effectConfigs:
   - statModifiers: []
     dispellableTypes: 
     targetType: 1
-    effectType: 1
-    value: 3
+    effectType: 4
+    value: 1
+    turnsDuration: 1
+  - statModifiers:
+    - type: 1
+      value: -1
+    dispellableTypes: 
+    targetType: 1
+    effectType: 0
+    value: 0
     turnsDuration: 0
   prefab: {fileID: 1285616541888473698, guid: 15e42584aaf50324db8978c59af70229, type: 3}
   targetType: 2

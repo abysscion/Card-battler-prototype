@@ -15,13 +15,13 @@ namespace Creatures
 
 		public override void Initialize()
 		{
-			GameController.Instance.TurnStarted += OnTurnStarted;
+			GameController.TurnStarted += OnTurnStarted;
 			OnTurnStarted(GameController.Instance.CurrentTeamTurn);
 		}
 
 		private void OnDestroy()
 		{
-			GameController.Instance.TurnStarted -= OnTurnStarted;
+			GameController.TurnStarted -= OnTurnStarted;
 		}
 
 		private void OnTurnStarted(GameTeamType teamTurn)
