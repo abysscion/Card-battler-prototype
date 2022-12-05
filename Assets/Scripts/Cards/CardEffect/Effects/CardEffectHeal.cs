@@ -5,12 +5,14 @@ namespace Cards
 {
 	public class CardEffectHeal : CardEffect
 	{
+		private Sprite _icon;
 		private CardEffectType[] _dispellableTypes;
 		private CardEffectType _effectType;
 		private float _healValue;
 		private bool _shouldBeProcessedOnAdd;
 		private int _duration;
 
+		public override Sprite Icon => _icon;
 		public override CardEffectType Type => _effectType;
 		public override bool ShouldBeProcessedOnAdd => _shouldBeProcessedOnAdd;
 		public override int TurnsDuration => _duration;

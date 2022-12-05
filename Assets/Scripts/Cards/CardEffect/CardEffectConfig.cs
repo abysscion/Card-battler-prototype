@@ -10,12 +10,14 @@ namespace Cards
 	{
 		[SerializeField] private List<CreatureStatModifier> statModifiers;
 		[SerializeField] private List<CardEffectType> dispellableEffectTypes;
+		[SerializeField] private Sprite icon;
 		[SerializeField] private CardEffectTargetType targetType;
 		[SerializeField] private CardEffectType effectType;
 		[SerializeField] private float value;
 		[SerializeField] private bool shouldBeProcessedOnAdd;
 		[SerializeField] private int turnsDuration;
 
+		public Sprite Icon => icon;
 		public CardEffectTargetType TargetType => targetType;
 		public CardEffectType EffectType => effectType;
 		public float Value => value;

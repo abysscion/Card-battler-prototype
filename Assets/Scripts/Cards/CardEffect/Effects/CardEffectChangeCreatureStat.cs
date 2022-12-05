@@ -7,10 +7,12 @@ namespace Cards
 	public class CardEffectChangeCreatureStat : CardEffect
 	{
 		private HashSet<CreatureStatModifier> _statModifiers;
+		private Sprite _icon;
 		private CardEffectType _effectType;
 		private bool _shouldBeProcessedOnAdd;
 		private int _duration;
 
+		public override Sprite Icon => _icon;
 		public override CardEffectType Type => _effectType;
 		public override bool ShouldBeProcessedOnAdd => _shouldBeProcessedOnAdd;
 		public override int TurnsDuration => _duration;

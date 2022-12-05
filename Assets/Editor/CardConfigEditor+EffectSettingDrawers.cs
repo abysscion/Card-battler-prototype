@@ -11,6 +11,7 @@ public partial class CardConfigEditor : Editor
 		EditorGUILayout.BeginVertical();
 		var cardEffectType = DrawCardEffectTypeProperty(effectConfigProperty.FindPropertyRelative("effectType"));
 		DrawCardEffectTargetTypeProperty(effectConfigProperty.FindPropertyRelative("targetType"));
+		DrawIconSpriteProperty(effectConfigProperty);
 		DrawTurnsDurationProperty(effectConfigProperty);
 		DrawShouldBeProcessedOnAddProperty(effectConfigProperty);
 		DrawEffectSettingsDependingOnEffectType(cardEffectType, effectConfigProperty);
@@ -170,6 +171,16 @@ public partial class CardConfigEditor : Editor
 		GUILayout.Label("Turns duration:", _labelsWidth);
 		var duration = effectConfigProperty.FindPropertyRelative("turnsDuration");
 		duration.intValue = EditorGUILayout.IntField(duration.intValue, _valuesWidth);
+		EditorGUILayout.EndHorizontal();
+	}
+
+	private void DrawIconSpriteProperty(SerializedProperty effectConfigProperty)
+	{
+		EditorGUILayout.BeginHorizontal();
+		var iconProperty = effectConfigProperty.FindPropertyRelative("icon");
+		GUILayout.Label("Icon sprite:", _labelsWidth, GUILayout.ExpandWidth(false));
+		iconProperty.objectReferenceValue = EditorGUILayout.ObjectField("", iconProperty.objectReferenceValue, typeof(Sprite), false, GUILayout.ExpandWidth(false),
+			GUILayout.Height(EditorGUIUtility.singleLineHeight), _valuesWidth);
 		EditorGUILayout.EndHorizontal();
 	}
 

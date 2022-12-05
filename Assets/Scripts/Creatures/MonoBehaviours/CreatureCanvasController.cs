@@ -1,4 +1,6 @@
-﻿using TMPro;
+﻿using System.Collections.Generic;
+using Cards;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,24 +8,53 @@ namespace Creatures
 {
 	public class CreatureCanvasController : MonoBehaviour
 	{
+		[SerializeField] private CardEffectUIStatusIcon statusIconPrefab;
+		[SerializeField] private LayoutGroup iconsGroup;
 		[SerializeField] private Creature creature;
 		[SerializeField] private TMP_Text healthText;
+		[SerializeField] private TMP_Text shieldText;
 		[SerializeField] private Image healthFillImage;
 		[SerializeField] private Image shieldFillImage;
-		[SerializeField] private TMP_Text shieldText;
+
+		private Dictionary<CardActiveEffect, CardEffectUIStatusIcon> _effectToSpawnedIconItem;
 
 		private void Start()
 		{
-			creature.Stats.AnyStatChanged += OnStatChanged;
+			_effectToSpawnedIconItem = new Dictionary<CardActiveEffect, CardEffectUIStatusIcon>();
 			UpdateView();
+			creature.EffectsController.ActiveEffectRemoved += OnActiveEffectRemoved;
+			creature.EffectsController.ActiveEffectAdded += OnActiveEffectAdded;
+			creature.Stats.AnyStatChanged += OnStatChanged;
 		}
 
 		private void OnDestroy()
 		{
+			creature.EffectsController.ActiveEffectRemoved -= OnActiveEffectRemoved;
+			creature.EffectsController.ActiveEffectAdded -= OnActiveEffectAdded;
 			creature.Stats.AnyStatChanged -= OnStatChanged;
 		}
 
 		private void OnStatChanged(CreatureStatType _, float __) => UpdateView();
+
+		private void OnActiveEffectAdded(CardActiveEffect addedEffect)
+		{
+			if (_effectToSpawnedIconItem.ContainsKey(addedEffect))
+				return;
+
+			var spawnedItem = Instantiate(statusIconPrefab, iconsGroup.transform);
+
+			spawnedItem.Initialize(addedEffect);
+			_effectToSpawnedIconItem.Add(addedEffect, spawnedItem);
+		}
+
+		private void OnActiveEffectRemoved(CardActiveEffect removedEffect)
+		{
+			if (_effectToSpawnedIconItem.TryGetValue(removedEffect, out var spawnedItem))
+			{
+				_effectToSpawnedIconItem.Remove(removedEffect);
+				Destroy(spawnedItem.gameObject);
+			}
+		}
 
 		private void UpdateView()
 		{

@@ -17,17 +17,21 @@ MonoBehaviour:
     - type: 1
       value: -1
     dispellableEffectTypes: 
+    icon: {fileID: 21300000, guid: c81c2f8a6c3db2740a42e707f94f7da2, type: 3}
     targetType: 1
     effectType: 4
     value: 1
+    shouldBeProcessedOnAdd: 0
     turnsDuration: 1
   - statModifiers:
     - type: 1
       value: -1
     dispellableEffectTypes: 
+    icon: {fileID: 0}
     targetType: 1
     effectType: 1
     value: 1
+    shouldBeProcessedOnAdd: 0
     turnsDuration: 0
   prefab: {fileID: 1285616541888473698, guid: e544be603611d564db0bf2d60590ab6e, type: 3}
   targetType: 2
