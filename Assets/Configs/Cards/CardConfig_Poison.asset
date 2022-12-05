@@ -24,7 +24,7 @@ MonoBehaviour:
       value: -1
     dispellableTypes: 
     targetType: 1
-    effectType: 0
+    effectType: 1
     value: 0
     turnsDuration: 0
   prefab: {fileID: 1285616541888473698, guid: 15e42584aaf50324db8978c59af70229, type: 3}

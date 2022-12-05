@@ -1,33 +1,28 @@
 ﻿using System;
 using Cards;
-using Creatures;
 using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(CardConfig))]
-public class CardConfigEditor : Editor
+public partial class CardConfigEditor : Editor
 {
+	private SerializedProperty _effectConfigsListProperty;
 	private SerializedProperty _cardTargetTypeProperty;
-	private SerializedProperty _effectsListProperty;
-	private SerializedProperty _cardTypeProperty;
 	private SerializedProperty _prefabProperty;
 	private CardConfig _script;
-	private readonly GUILayoutOption _effectDurationWidth = GUILayout.Width(75);
+
 	private readonly GUILayoutOption _valuesWidth = GUILayout.Width(150);
 	private readonly GUILayoutOption _labelsWidth = GUILayout.Width(100);
-	private readonly GUILayoutOption _xButtonWidth = GUILayout.Width(60), _xButtonHeight = GUILayout.Height(60);
+	private readonly GUILayoutOption _xButtonWidth = GUILayout.Width(30), _xButtonHeight = GUILayout.Height(30);
 
 	public override void OnInspectorGUI()
 	{
 		_script = target as CardConfig;
+		_effectConfigsListProperty = serializedObject.FindProperty("effectConfigs");
 		_cardTargetTypeProperty = serializedObject.FindProperty("targetType");
-		_effectsListProperty = serializedObject.FindProperty("effects");
-		_cardTypeProperty = serializedObject.FindProperty("type");
 		_prefabProperty = serializedObject.FindProperty("prefab");
 
-		DrawDefaultInspector();
-
-		//DrawSpecificScriptLayout();
+		DrawSpecificScriptLayout();
 
 		serializedObject.ApplyModifiedProperties();
 		if (GUI.changed)
@@ -36,105 +31,66 @@ public class CardConfigEditor : Editor
 
 	private void DrawSpecificScriptLayout()
 	{
-		//EditorGUILayout.BeginHorizontal();
-		//GUILayout.Label("Card type", EditorStyles.whiteLargeLabel, GUILayout.ExpandWidth(false));
-		//var cardType = DrawCardTypeEnumPopup();
-		//EditorGUILayout.EndHorizontal();
-		//GUILayout.Space(10);
+		EditorGUILayout.BeginHorizontal();
+		GUILayout.Label("Card prefab:", _labelsWidth);
+		_prefabProperty.objectReferenceValue = EditorGUILayout.ObjectField("", _prefabProperty.objectReferenceValue, typeof(Card),
+																			false, GUILayout.ExpandWidth(false));
+		EditorGUILayout.EndHorizontal();
 
-		//EditorGUILayout.ObjectField(_prefabProperty);
-
-		//EditorGUILayout.BeginHorizontal();
-		//GUILayout.Label("Target type:", GUILayout.ExpandWidth(false));
-		//DrawCardTargetTypeEnumPopup();
-		//EditorGUILayout.EndHorizontal();
-
-		//GUILayout.Label("Effects:");
-		//switch (cardType)
-		//{
-		//	case CardType.InstantEffect:
-		//		DrawInstantEffectBlock(); break;
-		//	case CardType.TemporaryEffect:
-		//		DrawTemporaryEffectBlock(); break;
-		//	default:
-		//		break;
-		//}
-
-		//DrawNavigationButtons();
+		DrawCardTargetTypeEnumPopup();
+		GUILayout.Space(10);
+		DrawEffectsList();
 	}
 
-	private void DrawInstantEffectBlock()
+	private void DrawEffectsList()
 	{
-		DrawListElements(false);
-	}
-
-	private void DrawTemporaryEffectBlock()
-	{
-		DrawListElements(true);
-	}
-
-	private void DrawListElements(bool drawDurationField)
-	{
-		EditorGUILayout.BeginVertical(EditorStyles.helpBox); // level: 0
-		for (var i = 0; i < _effectsListProperty.arraySize; i++)
+		EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+		GUILayout.Label("Effects:");
+		for (var i = 0; i < _effectConfigsListProperty.arraySize; i++)
 		{
-			var property = _effectsListProperty.GetArrayElementAtIndex(i);
-
-			EditorGUILayout.BeginHorizontal(EditorStyles.helpBox); // level: 1
-			EditorGUILayout.BeginVertical(); // level: 2
-			EditorGUILayout.BeginHorizontal(); // level: 3
-			GUILayout.Label("Stat:", _labelsWidth);
-			var type = property.FindPropertyRelative("type");
-			var selectedTypeName = EditorGUILayout.EnumPopup((CreatureStatType)type.enumValueIndex, _valuesWidth).ToString();
-			var selectedTypeIndex = (int)Enum.Parse<CreatureStatType>(selectedTypeName);
-			type.enumValueIndex = selectedTypeIndex;
-			EditorGUILayout.EndHorizontal(); // level: 3
-			EditorGUILayout.BeginHorizontal(); // level: 3
-			GUILayout.Label("Modifier:", _labelsWidth);
-			var value = property.FindPropertyRelative("value");
-			value.floatValue = EditorGUILayout.FloatField(value.floatValue, _valuesWidth);
-			EditorGUILayout.EndHorizontal(); // level: 3
-			if (drawDurationField)
-			{
-				EditorGUILayout.BeginHorizontal(); // level: 3
-				GUILayout.Label("Turns duration:", _labelsWidth);
-				var duration = property.FindPropertyRelative("duration");
-				duration.intValue = EditorGUILayout.IntField(duration.intValue, _effectDurationWidth);
-				EditorGUILayout.EndHorizontal(); // level: 3
-			}
-			EditorGUILayout.EndVertical(); // level: 2
+			var effectConfigProperty = _effectConfigsListProperty.GetArrayElementAtIndex(i);
+			EditorGUILayout.BeginHorizontal(EditorStyles.helpBox);
+			DrawEffectSettings(effectConfigProperty);
 			if (GUILayout.Button("X", _xButtonWidth, _xButtonHeight))
-				_effectsListProperty.DeleteArrayElementAtIndex(i);
-			EditorGUILayout.EndHorizontal(); // level: 1
+				_effectConfigsListProperty.DeleteArrayElementAtIndex(i);
+			EditorGUILayout.EndHorizontal();
+			GUILayout.Space(7);
 		}
-		EditorGUILayout.EndVertical(); // level: 0
+		DrawNavigationButtonsForListProperty(_effectConfigsListProperty);
+		EditorGUILayout.EndVertical();
 	}
 
-	private void DrawNavigationButtons()
+	private void DrawNavigationButtonsForListProperty(SerializedProperty listProperty)
 	{
-		if (GUILayout.Button("Add new effect"))
-			_effectsListProperty.InsertArrayElementAtIndex(0);
-		if (GUILayout.Button("Remove all effects"))
+		if (GUILayout.Button("Add new"))
+			listProperty.InsertArrayElementAtIndex(0);
+		if (GUILayout.Button("Remove all"))
 		{
-			if (EditorUtility.DisplayDialog("Effects removing", "Remove all effects?", "Sure!", "Nope."))
-				_effectsListProperty.ClearArray();
+			if (EditorUtility.DisplayDialog("All elements removing", "Remove all elements?", "Sure!", "Nope."))
+				listProperty.ClearArray();
 		}
 	}
 
-	//private CardType DrawCardTypeEnumPopup()
-	//{
-	//	var selectedTypeName = EditorGUILayout.EnumPopup((CardType)_cardTypeProperty.enumValueIndex, _valuesWidth).ToString();
-	//	var selectedTypeIndex = (int)Enum.Parse<CardType>(selectedTypeName);
-	//	_cardTypeProperty.enumValueIndex = selectedTypeIndex;
-	//	return (CardType)selectedTypeIndex;
-	//}
+	private CardEffectType DrawCardEffectTypeEnumPopup(SerializedProperty cardEffectTypeProperty)
+	{
+		EditorGUILayout.BeginHorizontal();
+		GUILayout.Label("Effect type:", _labelsWidth);
+		var selected = (CardEffectType)cardEffectTypeProperty.enumValueIndex;
+		var selectedTypeName = EditorGUILayout.EnumPopup(selected, _valuesWidth, GUILayout.ExpandWidth(false)).ToString();
+		var selectedTypeIndex = (int)Enum.Parse(selected.GetType(), selectedTypeName);
+		cardEffectTypeProperty.enumValueIndex = selectedTypeIndex;
+		EditorGUILayout.EndHorizontal();
+		return (CardEffectType)selectedTypeIndex;
+	}
 
 	private void DrawCardTargetTypeEnumPopup()
 	{
-		var selectedTypeName = EditorGUILayout.EnumPopup((CardTargetType)_cardTargetTypeProperty.enumValueIndex,
-												   _valuesWidth,
-												   GUILayout.ExpandWidth(false)).ToString();
-		var selectedTypeIndex = (int)Enum.Parse<CardTargetType>(selectedTypeName);
+		EditorGUILayout.BeginHorizontal();
+		GUILayout.Label("Target type:", GUILayout.ExpandWidth(false), _labelsWidth);
+		var selected = (CardTargetType)_cardTargetTypeProperty.enumValueIndex;
+		var selectedTypeName = EditorGUILayout.EnumPopup(selected, _valuesWidth, GUILayout.ExpandWidth(false)).ToString();
+		var selectedTypeIndex = (int)Enum.Parse(selected.GetType(), selectedTypeName);
 		_cardTargetTypeProperty.enumValueIndex = selectedTypeIndex;
+		EditorGUILayout.EndHorizontal();
 	}
 }

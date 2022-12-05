@@ -15,7 +15,7 @@ namespace Cards
 
 		public CardEffectHeal(CardEffectConfig config)
 		{
-			_dispellableTypes = config.GetDispellableTypes();
+			_dispellableTypes = config.GetDispellableEffectTypes();
 			_effectType = config.EffectType;
 			_healValue = config.Value;
 			_duration = config.TurnsDuration;

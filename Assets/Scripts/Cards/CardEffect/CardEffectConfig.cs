@@ -9,7 +9,7 @@ namespace Cards
 	public class CardEffectConfig
 	{
 		[SerializeField] private List<CreatureStatModifier> statModifiers;
-		[SerializeField] private List<CardEffectType> dispellableTypes;
+		[SerializeField] private List<CardEffectType> dispellableEffectTypes;
 		[SerializeField] private CardEffectTargetType targetType;
 		[SerializeField] private CardEffectType effectType;
 		[SerializeField] private float value;
@@ -27,10 +27,10 @@ namespace Cards
 			return result;
 		}
 
-		public CardEffectType[] GetDispellableTypes()
+		public CardEffectType[] GetDispellableEffectTypes()
 		{
-			var result = new CardEffectType[dispellableTypes.Count];
-			dispellableTypes.CopyTo(result);
+			var result = new CardEffectType[dispellableEffectTypes.Count];
+			dispellableEffectTypes.CopyTo(result);
 			return result;
 		}
 	}
