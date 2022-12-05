@@ -14,8 +14,11 @@ namespace CoreGameplay
 		public static event Action<GameTeamType> TurnStarted;
 		public static event Action<GameTeamType> TurnEnded;
 		public static event Action<GameTeamType> TeamWon;
+		public static event Action GameInitialized;
 
 		public GameTeamType CurrentTeamTurn { get; private set; }
+		public Creature[] PlayerCreatures => playerCreatures.GetAliveCreatures();
+		public Creature[] AICreatures => aiCreatures.GetAliveCreatures();
 
 		public override void Initialize()
 		{
@@ -26,6 +29,7 @@ namespace CoreGameplay
 			MainUICanvasController.Instance.EndTurnButtonClicked.AddListener(OnEndTurnButtonClicked);
 
 			StartNextTurn();
+			GameInitialized?.Invoke();
 		}
 
 		private void OnDestroy()

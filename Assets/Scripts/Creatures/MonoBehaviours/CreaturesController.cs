@@ -12,18 +12,18 @@ namespace Creatures
 		[SerializeField] private GameTeamType team;
 		[SerializeField] private List<Creature> creatures;
 
-		private Dictionary<Creature, CreatureDeck> _creatureToCreaturesDecksDic;
-		private HashSet<Creature> _actedCreatures;
+		protected Dictionary<Creature, CreatureDeck> creatureToCreaturesDecksDic;
+		protected HashSet<Creature> actedCreatures;
 
 		public event Action<GameTeamType> AllCreaturesActed;
 		public event Action<GameTeamType> AllCreaturesDied;
 
 		public GameTeamType Team => team;
 
-		private void Start()
+		protected virtual void Start()
 		{
-			_creatureToCreaturesDecksDic = new Dictionary<Creature, CreatureDeck>();
-			_actedCreatures = new HashSet<Creature>();
+			creatureToCreaturesDecksDic = new Dictionary<Creature, CreatureDeck>();
+			actedCreatures = new HashSet<Creature>();
 
 			for (int i = 0; i < creatures.Count; i++)
 			{
@@ -34,9 +34,13 @@ namespace Creatures
 				}
 				else
 				{
+					CreatureDeck creatureDeck;
 					var creature = creatures[i];
-					var creatureDeck = new CreatureDeck(creature, availableCards, team);
-					_creatureToCreaturesDecksDic.Add(creature, creatureDeck);
+					if (team == GameTeamType.Player)
+						creatureDeck = new CreatureDeck(creature, availableCards, team);
+					else
+						creatureDeck = new AICreatureDeck(creature, availableCards, team);
+					creatureToCreaturesDecksDic.Add(creature, creatureDeck);
 					creatureDeck.CardUsed += () => OnCreatureDeckUsedCard(creatureDeck);
 					creature.Died += () => OnCreatureDied(creature);
 				}
@@ -46,10 +50,17 @@ namespace Creatures
 			GameController.TurnEnded += OnTurnEnded;
 		}
 
-		private void OnDestroy()
+		protected virtual void OnDestroy()
 		{
 			GameController.TurnStarted -= OnTurnStarted;
 			GameController.TurnEnded -= OnTurnEnded;
+		}
+
+		public Creature[] GetAliveCreatures()
+		{
+			var result = new Creature[creatureToCreaturesDecksDic.Keys.Count];
+			creatureToCreaturesDecksDic.Keys.CopyTo(result, 0);
+			return result;
 		}
 
 		private void OnTurnStarted(GameTeamType teamTurn)
@@ -63,12 +74,12 @@ namespace Creatures
 			if (teamTurn != team)
 				return;
 
-			_actedCreatures.Clear();
+			actedCreatures.Clear();
 		}
 
 		private void OnCreatureDied(Creature creature)
 		{
-			_creatureToCreaturesDecksDic.Remove(creature);
+			creatureToCreaturesDecksDic.Remove(creature);
 			creatures.Remove(creature);
 			Destroy(creature.gameObject);
 			if (creatures.Count <= 0)
@@ -77,8 +88,8 @@ namespace Creatures
 
 		private void OnCreatureDeckUsedCard(CreatureDeck creatureDeck)
 		{
-			_actedCreatures.Add(creatureDeck.Creature);
-			if (_actedCreatures.Count == _creatureToCreaturesDecksDic.Keys.Count)
+			actedCreatures.Add(creatureDeck.Creature);
+			if (actedCreatures.Count == creatureToCreaturesDecksDic.Keys.Count)
 				AllCreaturesActed?.Invoke(team);
 		}
 

@@ -17,7 +17,7 @@ namespace Cards
 			DragSuccesseded += OnDragSuccesseded;
 		}
 
-		private void OnDragSuccesseded(Vector3 dragPos)
+		protected void OnDragSuccesseded(Vector3 dragPos)
 		{
 			var ray = new Ray(Camera.main.ScreenToWorldPoint(dragPos), Vector3.down);
 			if (!Physics.Raycast(ray, out var hitInfo, Mathf.Infinity, receiversMask, QueryTriggerInteraction.Collide))
